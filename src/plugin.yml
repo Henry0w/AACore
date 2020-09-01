@@ -1,0 +1,9 @@
+name: AACore
+authors: [Armeriness, Sommod]
+version: 2.0
+main: cold.fyre.AAcore
+description: A library of data that is used in plugin creation.
+
+commands:
+  aacore:
+    usage: Invalid command given, use AACore help for list of commands.
