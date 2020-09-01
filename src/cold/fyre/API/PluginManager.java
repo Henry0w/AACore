@@ -111,13 +111,13 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	public YamlConfiguration getCustomConfig(String path, String fileName) {
 		if(path == null || fileName == null) return null;
 		
-		if(path.endsWith("/"))
-			path = path.substring(0, path.length() - 1);
+		if(!path.endsWith("/"))
+			path += "/";
 		
 		if(!fileName.endsWith(".yml"))
 			fileName += ".yml";
 		
-		File file = new File(path);
+		File file = new File(path + fileName);
 		YamlConfiguration config = new YamlConfiguration();
 		
 		try {
