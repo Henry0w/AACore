@@ -5,21 +5,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Abstract class for the {@link CommandManager}. While it's suggested
- * that you do not use this as your Super Class, it will provide similar
- * results. This contains the base methods that are used for handling
- * commands, but to have access, use the {@link CommandManager} class
- * as the Super Class.
+ * (No Javadoc available)
+ * 
  * @author Armeriness
  * @author Sommod
  * @since 2.0
  *
  * @param <P> - Your PluginManager class.
  */
-public abstract class AbstractCommandManager<P extends PluginManager<? extends JavaPlugin>> {
+public abstract class CommandManager<P extends PluginManager<?>> {
 	
 	// All the Different command senders
 	private Player player = null;
@@ -39,7 +35,7 @@ public abstract class AbstractCommandManager<P extends PluginManager<? extends J
 	 * @param args - Arguments to Command.
 	 * @param pluginManager - PluginManager for plugin.
 	 */
-	protected AbstractCommandManager(CommandSender sender, Command command, String[] args, P pluginManager) {
+	protected CommandManager(CommandSender sender, Command command, String[] args, P pluginManager) {
 		this.sender = sender;
 		this.command = command;
 		this.args = args;
