@@ -1,0 +1,156 @@
+package cold.fyre.API;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.RemoteConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
+/**
+ * Abstract class for the {@link CommandManager}. While it's suggested
+ * that you do not use this as your Super Class, it will provide similar
+ * results. This contains the base methods that are used for handling
+ * commands, but to have access, use the {@link CommandManager} class
+ * as the Super Class.
+ * @author Armeriness
+ * @author Sommod
+ * @since 2.0
+ *
+ * @param <P> - Your PluginManager class.
+ */
+public abstract class AbstractCommandManager<P extends PluginManager<? extends JavaPlugin>> {
+	
+	// All the Different command senders
+	private Player player = null;
+	private ConsoleCommandSender console = null;
+	private RemoteConsoleCommandSender remote = null;
+	private CommandSender sender;
+	
+	// onCommand parameters
+	private String[] args;
+	private Command command;
+	private P pluginManager = null;
+	
+	/**
+	 * Constructor for Command Handling
+	 * @param sender - Entity that sent the command
+	 * @param command - Command issued
+	 * @param args - Arguments to Command.
+	 * @param pluginManager - PluginManager for plugin.
+	 */
+	protected AbstractCommandManager(CommandSender sender, Command command, String[] args, P pluginManager) {
+		this.sender = sender;
+		this.command = command;
+		this.args = args;
+		this.pluginManager = pluginManager;
+		
+		// Stores the sender as the specific sender
+		if(sender instanceof Player)
+			player = (Player) sender;
+		else if(sender instanceof ConsoleCommandSender)
+			console = (ConsoleCommandSender) sender;
+		else
+			remote = (RemoteConsoleCommandSender) sender;
+		
+		// Runs Empty method.
+		// Needs to be overriden to be of any use.
+		execute();
+	}
+	
+	/**
+	 * Returns the entity that issued the command as the base object of
+	 * CommandSender. It's better / more proficient to use method that
+	 * is the entity itself.
+	 * @return {@link CommandSender}
+	 */
+	public CommandSender getBaseSender() { return sender; }
+	
+	/**
+	 * Returns the CommandSender as a player. If the sender is NOT a 
+	 * player or player object, then this will return null.
+	 * @return {@link Player}
+	 */
+	public Player getPlayer() { return player; }
+	
+	/**
+	 * Returns the CommandSender as a ConsoleCommandSender. If the sender
+	 * is not Console, then this will return Null.
+	 * @return {@link ConsoleCommandSender}
+	 */
+	public ConsoleCommandSender getConsole() { return console; }
+	
+	/**
+	 * Retusn the CommandSedner as a RemoteConsoleCommandSender. If the sender
+	 * is not a RemoteConsole, then this will return null. Note that this option
+	 * is <b>Rarely</b> used. The RemoteConsole is, by default, disabled and
+	 * has to be enabled on the server. The most commonly used program used as
+	 * a remote console is Rcon. A RemoteConsoleCommandSender is the same as
+	 * Console, but is usable without logging into the server via website.
+	 * @return {@link RemoteConsoleCommandSender}
+	 */
+	public RemoteConsoleCommandSender getRemoteSender() { return remote; }
+	
+	/**
+	 * Returns the command that was issued. This does not contain the 
+	 * arguments that may have been attached to the command. This is only
+	 * the base command.
+	 * @return {@link Command}
+	 */
+	public Command getCommand() { return command; }
+	
+	/**
+	 * Returns the array of the String arguments that are attached to the
+	 * Command.
+	 * @return String Array
+	 */
+	public String[] getArgs() { return args; }
+	
+	/**
+	 * Gets a specified argument from the inputed value. If the value
+	 * would throw and OutOfBoundsException (meaning you tried to grab
+	 * a element in the array that does not exist) then this will by default
+	 * return a Null Value.
+	 * @param value - Element to grab.
+	 * @return String element, otherwise null
+	 */
+	public String getArg(int value) {
+		if(value < 0 | value >= args.length)
+			return null;
+		return args[value];
+	}
+	
+	/**
+	 * Returns the PluginManager. If the PluginManager object
+	 * was not given, then this will return null. If you passed
+	 * a sub-class of the PluginManager, then that sub-class
+	 * will be returned.
+	 * @return {@link PluginManager}
+	 */
+	public P getPluginManager() { return pluginManager; }
+	
+	/**
+	 * Checks if the CommandSender was a player entity.
+	 * @return True - if CommandSender was a player entity
+	 */
+	public boolean isPlayer() { return player != null; }
+	
+	/**
+	 * Checks if the CommandSender was Console.
+	 * @return True - if CommandSender was console
+	 */
+	public boolean isConsole() { return console != null; }
+	
+	/**
+	 * Checks if the CommandSender was a RemoteConsole.
+	 * @return True - if Console and Remote
+	 */
+	public boolean isRemoteConsole() { return remote != null; }
+	
+	/**
+	 * Method that is ran when the constructor of the class
+	 * is initialized. While it is not necessary to use this
+	 * method, it is already being called and ran.
+	 */
+	public void execute() {	}
+}
