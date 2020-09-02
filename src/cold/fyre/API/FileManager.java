@@ -129,10 +129,10 @@ public class FileManager {
 	}
 	
 	// Used for formating the date used in the LogExceptionToFile method.
-		private static String getDate() {
-			String toReturn = "";
-			toReturn += Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH + "-" + Calendar.HOUR_OF_DAY + Calendar.MINUTE + Calendar.SECOND;
-			return toReturn;
-		}
+	private static String getDate() {
+		String toReturn = "";
+		toReturn += Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH + "-" + Calendar.HOUR_OF_DAY + Calendar.MINUTE + Calendar.SECOND;
+		return toReturn;
+	}
 
 }
