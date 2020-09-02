@@ -2,8 +2,11 @@ package cold.fyre.API;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Calendar;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 
@@ -88,5 +91,48 @@ public class FileManager {
 		from.delete();
 		return toMove;
 	}
+	
+	/**
+	 * This logs an exception to a file within the plugins folder. Note that
+	 * name of the plugin must be the name of the <b>plugin folder</b>. If the 
+	 * name is incorrect, meaning the folder is not found, then a default folder
+	 * of <b>Error Logs</b> will be used.
+	 * @param pluginName
+	 * @param e
+	 */
+	public static void logExceptionToFile(String pluginName, Exception e) {
+		File folder = null;
+		
+		if(pluginName != null)
+			folder = new File(getPluginsFolder(), pluginName);
+		
+		if(folder == null || !folder.exists()) {
+			folder = new File(getPluginsFolder(), "Error Logs");
+			folder.mkdir();
+			Bukkit.getServer().getConsoleSender().sendMessage("§cError: Could not log Exception to §b" + pluginName + "§c, folder does not exist."
+					+ "§c Logging Exception to §bError Logs§c folder in the §bplugins§c folder.");
+		}
+		
+		File toLog = new File(folder, getDate() + ".txt");
+		NotNull(toLog);
+		toLog.setWritable(true);
+		
+		try {
+			FileWriter fw = new FileWriter(toLog);
+			for(StackTraceElement element : e.getStackTrace())
+				fw.append(element.toString() + "\n");
+			fw.close();
+		} catch (IOException e1) {
+			Bukkit.getServer().getLogger().log(Level.WARNING, "§cError, could not write error data to file, another error occurred.");
+		}
+		
+	}
+	
+	// Used for formating the date used in the LogExceptionToFile method.
+		private static String getDate() {
+			String toReturn = "";
+			toReturn += Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH + "-" + Calendar.HOUR_OF_DAY + Calendar.MINUTE + Calendar.SECOND;
+			return toReturn;
+		}
 
 }

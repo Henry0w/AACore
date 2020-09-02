@@ -7,7 +7,8 @@ import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * (No Javadoc available)
+ * Manager class for Commands. This class provides several methods
+ * that supply easy / simplified use of objects that are commonly used.
  * 
  * @author Armeriness
  * @author Sommod
@@ -142,6 +143,22 @@ public abstract class CommandManager<P extends PluginManager<?>> {
 	 * @return True - if Console and Remote
 	 */
 	public boolean isRemoteConsole() { return remote != null; }
+	
+	/**
+	 * Will display the text given from the parameter and
+	 * add the plugin name and color formatting to the message.
+	 * Color code based in Minecraft Color Codes.
+	 * <br><br>
+	 * Format: &7[&cNAME&7] &cMESSAGE
+	 * @param toDisplay - Message to display
+	 * @return Formated String
+	 */
+	public String getPluginMessage(String toDisplay) {
+		if(pluginManager != null)
+			return "§7[§c" + pluginManager.getPlugin().getName() + "§7] §l§8>> §c" + toDisplay;
+		else
+			return "";
+	}
 	
 	/**
 	 * Method that is ran when the constructor of the class

@@ -345,6 +345,7 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	public void logExceptionToFile(Exception e) {
 		File logFolder = FileManager.getFolder(plugin.getDataFolder() + "/Logs");
 		File toLog = new File(logFolder, getDate() + ".txt");
+		FileManager.NotNull(toLog);
 		toLog.setWritable(true);
 		
 		try {
