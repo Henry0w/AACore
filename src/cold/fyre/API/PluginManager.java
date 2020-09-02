@@ -70,7 +70,7 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	 * This is ran when the constructor is called. This can be used
 	 * for initializing any data and objects for the plugin.
 	 */
-	public abstract void onStartup();
+	public void onStartup() { }
 	
 	/**
 	 * This function is NOT ran when the plugin disables. Can be used for when
@@ -78,7 +78,7 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	 * server. This must be called in the onDisable() function within the main
 	 * plugin class.
 	 */
-	public abstract void onShutdown();
+	public void onShutdown() { }
 	
 	/**
 	 * Can be used to reload any data within the plugin. By default if this function
