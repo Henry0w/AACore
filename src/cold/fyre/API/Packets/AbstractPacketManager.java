@@ -1,6 +1,7 @@
 package cold.fyre.API.Packets;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 
 /**
  * Contains a list of different methods that use packets to which are sent to either
@@ -66,6 +67,38 @@ public abstract class AbstractPacketManager {
 		//manager = coldfyre;
 	}
 	
+	/**
+	 * Returns the Server as an Object.
+	 * @return Server
+	 */
 	public Server getServer() { return server; }
+	
+	/**
+	 * Gets the Minecraft Version the server is running.
+	 * @return Minecraft Version
+	 */
+	public ServerVersion getVersion() { return serverVersion; }
+	
+	/**
+	 * Formats the String into a standard TEXT JSON format.
+	 * @param convert - String to change into JSON format
+	 * @return String as JSON
+	 */
+	protected String toJSON(String convert) { return "{\"text\":" + convert + "\"}"; }
+	
+	/**
+	 * Sends a player a Title Message with no Subtitle. This is the text that appears in the middle of the players
+	 * screen. Depending on the Minecraft Version of the server, the Fade-In, Out and display time can be set. For
+	 * the version that does not support it, it will run a standard time of (1) second fade in/out and a (2) second
+	 * display time.
+	 * @param toSend - Player to send message to
+	 * @param message - Message to send
+	 * @param fadeIn - Time (in seconds) for text to fade into view
+	 * @param displayTime - Time (in seconds) for text to display on screen
+	 * @param fadeOut - Time - (in seconds) for text to fade out of view
+	 */
+	public abstract void sendTitle(Player toSend, String message, int fadeIn, int displayTime, int fadeOut);
+	
+	public abstract void sendSubTitle(Player toSend, String message, int fadeIn, int displayTime, int fadeOut);
 
 }
