@@ -1,10 +1,7 @@
 package cold.fyre.API.Packets.Complete;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cold.fyre.API.FileManager;
@@ -34,38 +31,35 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	private P manager;
 	private JavaPlugin plugin;
 	
-	protected AbstractPacket() { }
-	
-	protected AbstractPacket(final String packetName, final Object packet, P pluginManager) {
+	/**
+	 * Stores the default needed data into the Variables of this class.
+	 * @param packetName - Name of packet being created
+	 * @param pluginManager - this Plugin's PluginManager
+	 */
+	protected AbstractPacket(final String packetName, P pluginManager) {
 		this.packetName = packetName;
 		manager = pluginManager;
 		plugin = pluginManager.getPlugin();
 	}
 	
-	protected AbstractPacket(final String packetName, final Object packet, JavaPlugin plugin) {
+	/**
+	 * Sores the default needed data into the Variables of this class.
+	 * @param packetName - Name of the packet being created
+	 * @param plugin - This plugin
+	 */
+	protected AbstractPacket(final String packetName, JavaPlugin plugin) {
 		this.packetName = packetName;
 		this.plugin = plugin;
-		this.packet = packet;
 		manager = null;
 	}
 	
-	private Class<?> getBasePacketClass() {
-		try { return Class.forName("net.minecraft.server." + version + ".Packet"); } 
+	// Used to get the basic Packet class for sending the packets to either the
+	// server or the player
+	protected Class<?> getBasePacketClass() {
+		try { return Class.forName("net.minecraft.server." + getMCVersion() + ".Packet"); } 
 		catch (ClassNotFoundException e) {
-			FileManager.logExceptionToFile(plugin.getName(), e);
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
 			return null;
-		}
-	}
-	
-	protected void sendPacket(Player toSend) {
-		try {
-			Object handle = toSend.getClass().getMethod("getHandle").invoke(toSend);
-			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-			
-			playerConnection.getClass().getMethod("sendPacket", getBasePacketClass()).invoke(playerConnection, packet);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
-			FileManager.logExceptionToFile(plugin.getName(), e);
-			return;
 		}
 	}
 	
@@ -84,10 +78,11 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	protected JavaPlugin getBasePlugin() { return plugin; }
 	
 	/**
-	 * Returns the Current Minecraft Version
+	 * Returns the Current Minecraft Version. This is in the format of V#_##_R# as found
+	 * on in the name of the packages.
 	 * @return Minecraft version from the package
 	 */
-	protected String getMCVersion() { return version; }
+	public String getMCVersion() { return version; }
 	
 	/**
 	 * Returns the name of this packet.
@@ -99,12 +94,27 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	 * Returns the server this plugi is currently running on.
 	 * @return Server
 	 */
-	protected Server getServer() { return server; }
+	public Server getServer() { return server; }
 	
 	/**
 	 * Returns this packet as an Object to allow usage with reflection.
 	 * @return This packet as an object.
 	 */
 	protected Object getPacket() { return packet; }
+	
+	/**
+	 * Loads the packet into the Super class and allows it to be sent to
+	 * the player or server.
+	 * @param packet - initialized packet of the MC version.
+	 */
+	protected void loadPacket(Object packet) { this.packet = packet; }
+	
+	/**
+	 * Used to create the packet for the version specific for the current
+	 * Minecraft Version being ran on the server. Note that this does not
+	 * store the packet, so the method {@link #loadPacket(Object)} still
+	 * needs to be called after the creation of the packet.
+	 */
+	protected abstract void createPacket();
 
 }
