@@ -1,4 +1,4 @@
-package cold.fyre.API.Packets.Complete;
+package cold.fyre.API.Packets.Complete.util;
 
 /**
  * Used for setting certain attributes to a player. Note that these will not apply to a player until

@@ -2,7 +2,7 @@ package cold.fyre.API.Packets.Complete.out;
 
 import cold.fyre.API.PluginManager;
 import cold.fyre.API.Packets.Complete.PacketPlayOut;
-import cold.fyre.API.Packets.Complete.PlayerAbilities;
+import cold.fyre.API.Packets.Complete.util.PlayerAbilities;
 
 public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPlayOut<P> {
 	
