@@ -1,8 +1,13 @@
 package cold.fyre.API.Packets.Complete;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.yaml.snakeyaml.constructor.ConstructorException;
 
 import cold.fyre.API.FileManager;
 import cold.fyre.API.PluginManager;
@@ -64,6 +69,53 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	}
 	
 	/**
+	 * Attempts to obtain a Class of Object of the Packet given. If the packet does not
+	 * Exist, or is spelled incorrectly, then this will return null. The name of the packet
+	 * is <b>case sensitive</b>.
+	 * @param packetName
+	 * @return
+	 */
+	protected Class<?> getPacketClass(String packetName) {
+		try { return Class.forName("net.minecraft.server." + getMCVersion() + "." + packetName); }
+		catch (ClassNotFoundException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			return null;
+		}
+	}
+	
+	/**
+	 * Obtains the contstructor of a Packet Class.
+	 * @param clazz - Class object of packet.
+	 * @param parameterTypes - The parameterTypes to init in the constructor.
+	 * @return Constructor
+	 */
+	protected Constructor<?> getPacketConstructor(Class<?> clazz, Class<?>... parameterTypes) {
+		try { return clazz.getConstructor(parameterTypes); }
+		catch (ConstructorException | NoSuchMethodException | SecurityException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			return null;
+		}
+	}
+	
+	protected void createPacket(String packetName, List<Class<?>> parameterTypes, List<Object> parameters) {
+		Class<?>[] types = new Class<?>[parameterTypes.size()];
+		Object[] localParameters = new Object[parameters.size()];
+		
+		for(int i = 0; i < parameterTypes.size(); i++)
+			types[i] = parameterTypes.get(i);
+		
+		for(int i = 0; i < parameters.size(); i++)
+			localParameters[i] = parameters.get(i);
+		
+		try {
+			Object localPacket = getPacketConstructor(getPacketClass(packetName), types).newInstance(localParameters);
+			loadPacket(localPacket);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+		}
+	}
+	
+	/**
 	 * Gets the PluginManager object. If no PluginManager was given in the Constructor, then
 	 * this will return null.
 	 * @return subclass of PluginManagr, otherwise null
@@ -104,17 +156,10 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	
 	/**
 	 * Loads the packet into the Super class and allows it to be sent to
-	 * the player or server.
+	 * the player or server. This does not need to be ran for each packet
+	 * as some are created for y
 	 * @param packet - initialized packet of the MC version.
 	 */
 	protected void loadPacket(Object packet) { this.packet = packet; }
-	
-	/**
-	 * Used to create the packet for the version specific for the current
-	 * Minecraft Version being ran on the server. Note that this does not
-	 * store the packet, so the method {@link #loadPacket(Object)} still
-	 * needs to be called after the creation of the packet.
-	 */
-	protected abstract void createPacket();
 
 }

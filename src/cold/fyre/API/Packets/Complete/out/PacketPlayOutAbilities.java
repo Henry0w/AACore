@@ -15,22 +15,25 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 	public PacketPlayOutAbilities(P pluginManager, PlayerAbilities abilities) {
 		super("PacketPlayOutAbilities", pluginManager);
 		this.abilities = abilities;
-		createPacket();
+		loadObjects();
 	}
-
-	@Override
-	protected void createPacket() {
-		// Stops the rest of the code if the object is null. This will
-		// Still throw and error if the sendPacket is invoked, but
-		// This stops unnecessary code from being ran.
-		if(abilities == null) { 
+	
+	// Creates the packet and loads it into the Super class.
+	private void loadObjects() {
+		
+		// Checks if the PlayerAbilities is a null object. If
+		// the object is null, then it will load a null object
+		// As the packet and return to stop an error from occurring
+		// now. This will still cause an error later when the packet
+		// is to be sent.
+		if(abilities == null) {
 			loadPacket(null);
 			return;
 		}
 		
-		// TODO: Create an NBTTagCompound object
-		// TODO: Create a PacketPlayerOutAbilities packet
-		// TODO: Store packet in super class,
+		Class<?> nbtClass = getPacketClass("NBTTagCompound");
+		// TODO: Create NBT object and loads the player abilities into it.
+		// TODO: Create packet and load it into the super class.
 	}
 
 }
