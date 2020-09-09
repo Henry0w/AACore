@@ -1,5 +1,9 @@
 package cold.fyre.API.Packets.Complete.out;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import cold.fyre.API.FileManager;
 import cold.fyre.API.PluginManager;
 import cold.fyre.API.Packets.Complete.PacketPlayOut;
 import cold.fyre.API.Packets.Complete.util.PlayerAbilities;
@@ -31,9 +35,43 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 			return;
 		}
 		
-		Class<?> nbtClass = getPacketClass("NBTTagCompound");
-		// TODO: Create NBT object and loads the player abilities into it.
-		// TODO: Create packet and load it into the super class.
+		Object nbt = applyAbilities(createNBTObject(getPacketClass("NBTTagCompound")));
+		try {
+			Object playerAbilities = getPacketClass("PlayerAbilities").getConstructor().newInstance();
+			playerAbilities.getClass().getMethod("a", getPacketClass("NBTTagCompound")).invoke(playerAbilities, nbt);
+			loadPacket(getPacketClass(getPacketName()).getConstructor(getPacketClass("PlayerAbilities")).newInstance(playerAbilities));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			loadPacket(null);
+		}
+	}
+	
+	private Object createNBTObject(Object nbtClass) {
+		try {
+			Constructor<?> nbtConstructor = nbtClass.getClass().getConstructor();
+			Object toReturnNBT = nbtConstructor.newInstance();
+			return toReturnNBT;
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NullPointerException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			return null;
+		}
+	}
+	
+	private Object applyAbilities(Object nbt) {
+		
+		try {
+			nbt.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(nbt, "invulnerable", abilities.isInvulnerable());
+			nbt.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(nbt, "flying", abilities.isFlying());
+			nbt.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(nbt, "mayfly", abilities.canFly());
+			nbt.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(nbt, "instabuild", abilities.canInstantBuild());
+			nbt.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(nbt, "mayBuild", abilities.mayBuild());
+			nbt.getClass().getMethod("setFloat", String.class, float.class).invoke(nbt, "flyspeed", abilities.flySpeed());
+			nbt.getClass().getMethod("setFloat", String.class, float.class).invoke(nbt, "walkspeed", abilities.walkSpeed());
+			return nbt;
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NullPointerException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			return null;
+		}
 	}
 
 }
