@@ -22,6 +22,11 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 		loadObjects();
 	}
 	
+	public void loadAbilities(PlayerAbilities abilities) {
+		this.abilities = abilities;
+		loadObjects();
+	}
+	
 	// Creates the packet and loads it into the Super class.
 	private void loadObjects() {
 		
@@ -30,10 +35,11 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 		// As the packet and return to stop an error from occurring
 		// now. This will still cause an error later when the packet
 		// is to be sent.
-		if(abilities == null) {
+		if(abilities == null && getPacket() == null) {
 			loadPacket(null);
 			return;
-		}
+		} else if(abilities == null)
+			return;
 		
 		Object nbt = applyAbilities(createNBTObject(getPacketClass("NBTTagCompound")));
 		try {
