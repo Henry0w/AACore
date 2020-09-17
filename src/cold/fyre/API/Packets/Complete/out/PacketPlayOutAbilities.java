@@ -8,16 +8,56 @@ import cold.fyre.API.PluginManager;
 import cold.fyre.API.Packets.Complete.PacketPlayOut;
 import cold.fyre.API.Packets.Complete.util.PlayerAbilities;
 
+/**
+ * Loads the PlayerAbilities into the the packet in data form to allow
+ * the data to be sent to the player's client. This supports across
+ * multiple Minecraft Versions.
+ * 
+ * @author Armeriness
+ * @author Sommod
+ * @since 2.0
+ * @version MC 1.8 - 1.16.2
+ * 
+ * @param <P> - PluginManager
+ */
 public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPlayOut<P> {
 	
+	// Object to hold the PlayerAbilities for reflection
 	private PlayerAbilities abilities;
 	
+	/**
+	 * Initializes a new PacketPlayOutPlayerAbilties object and loads it
+	 * into the packet to be sent to a player. Please note that this
+	 * takes the PlayerAbilities object; ensure that it's the correct
+	 * object from the AACore API, NOT the version-specific NMS class.
+	 * 
+	 * @param abilities - {@link PlayerAbilities}
+	 */
 	public PacketPlayOutAbilities(PlayerAbilities abilities) {
 		this(null, abilities);
 	}
 	
+	/**
+	 * Initializes a new PacketPlayOutPlayerAbilties object and loads it
+	 * into the packet to be sent to a player. Please note that this
+	 * takes the PlayerAbilities object; ensure that it's the correct
+	 * object from the AACore API, NOT the version-specific NMS class.
+	 * 
+	 * @param abilities - {@link PlayerAbilities}
+	 * @param pluginManager - PluginManager of plugin. Can be null.
+	 */
 	public PacketPlayOutAbilities(P pluginManager, PlayerAbilities abilities) {
 		super("PacketPlayOutAbilities", pluginManager);
+		this.abilities = abilities;
+		loadObjects();
+	}
+	
+	/**
+	 * Load a new PlayerAbilities into the packet, allowing to send a
+	 * different set of abilities to a player.
+	 * @param abilities - new PlayerAbilities
+	 */
+	public void loadNewAbilities(PlayerAbilities abilities) {
 		this.abilities = abilities;
 		loadObjects();
 	}
@@ -36,6 +76,8 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 		// now. This will still cause an error later when the packet
 		// is to be sent.
 		if(abilities == null && getPacket() == null) {
+			return;
+		} else if(abilities == null) {
 			loadPacket(null);
 			return;
 		} else if(abilities == null)
@@ -52,6 +94,7 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 		}
 	}
 	
+	// Create the NBT class of the version specific class.
 	private Object createNBTObject(Object nbtClass) {
 		try {
 			Constructor<?> nbtConstructor = nbtClass.getClass().getConstructor();
@@ -63,6 +106,7 @@ public class PacketPlayOutAbilities<P extends PluginManager<?>> extends PacketPl
 		}
 	}
 	
+	// Apply the PlayerAbilities data to the NBT class.
 	private Object applyAbilities(Object nbt) {
 		
 		try {
