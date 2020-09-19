@@ -78,7 +78,7 @@ public abstract class CommandManager<P extends PluginManager<?>> {
 	public ConsoleCommandSender getConsole() { return console; }
 	
 	/**
-	 * Retusn the CommandSedner as a RemoteConsoleCommandSender. If the sender
+	 * Returns the CommandSender as a RemoteConsoleCommandSender. If the sender
 	 * is not a RemoteConsole, then this will return null. Note that this option
 	 * is <b>Rarely</b> used. The RemoteConsole is, by default, disabled and
 	 * has to be enabled on the server. The most commonly used program used as
