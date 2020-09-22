@@ -51,7 +51,7 @@ public abstract class CommandManager<P extends PluginManager<?>> {
 			remote = (RemoteConsoleCommandSender) sender;
 		
 		// Runs Empty method.
-		// Needs to be overriden to be of any use.
+		// Needs to be overridden to be of any use.
 		execute();
 	}
 	
