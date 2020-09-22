@@ -5,6 +5,15 @@ import org.bukkit.entity.Entity;
 import cold.fyre.API.PluginManager;
 import cold.fyre.API.Packets.Complete.PacketPlayOut;
 
+/**
+ * 
+ * 
+ * @author Armeriness
+ * @author Sommod
+ * @since 2.0
+ *
+ * @param <P> - Your PluginManager
+ */
 public class PacketPlayOutAttachEntity<P extends PluginManager<?>> extends PacketPlayOut<P> {
 	
 	private Entity ent1;
