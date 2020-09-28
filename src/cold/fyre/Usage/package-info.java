@@ -8,7 +8,7 @@
  * 
  * @author Armeriness
  * @author Sommod
- * @since 1.0
+ * @since 2.0
  *
  */
 package cold.fyre.Usage;
