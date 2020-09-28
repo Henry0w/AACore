@@ -1,5 +1,6 @@
 package cold.fyre.API;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -16,6 +17,7 @@ import com.mojang.authlib.GameProfile;
 
 import cold.fyre.API.Packets.AbstractPacketManager;
 import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.Packet;
 
 public class PacketManager extends AbstractPacketManager {
 
@@ -23,9 +25,26 @@ public class PacketManager extends AbstractPacketManager {
 		super(server, version, coldfyre);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param player
+	 * @param message
+	 * @param fadeIn
+	 * @param showTime
+	 * @param fadeOut
+	 */
 	@Override
 	public void sendTitle(Player player, String message, int fadeIn, int showTime, int fadeOut) {
-		
+		Packet title = new Packet("PacketPlayOutTitle", getManager());
+		try {
+			title.createPacket(new Class<?>[]{title.getPacketClass("EnumTitleAction"), title.getPacketClass("IChatBaseComponent"), int.class, int.class, int.class},
+					new Object[]{title.getEnumValues(title.getPacketClass("EnumTitleAction"), "TITLE"), title.getPacketClass("ChatSerializer").getMethod("a", String.class).invoke(title.getPacketClass("ChatSerializer"), "{\"text\":\"" + message + "\"}"), fadeIn, showTime, fadeOut});
+			title.sendPacket(player);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
