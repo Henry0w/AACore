@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.mojang.authlib.GameProfile;
 
-import cold.fyre.IcyHot;
+import cold.fyre.Usage.Manager;
 
 /**
  * Contains a list of different methods that use packets to which are sent to either
@@ -34,7 +34,7 @@ public abstract class AbstractPacketManager {
 	
 	private Server server;
 	private ServerVersion serverVersion;
-	//private IcyHot manager;
+	private Manager manager;
 	
 	/**
 	 * Contains the Server version of the server. Note that some of the
@@ -74,11 +74,13 @@ public abstract class AbstractPacketManager {
 		public double toNumber() { return num; }
 	}
 	
-	public AbstractPacketManager(Server server, ServerVersion version, IcyHot coldfyre) {
+	public AbstractPacketManager(Server server, ServerVersion version, Manager coldfyre) {
 		this.server = server;
 		serverVersion = version;
-		//manager = coldfyre;
+		manager = coldfyre;
 	}
+	
+	protected Manager getManager() { return manager; }
 	
 	/**
 	 * Returns the Server as an Object.
