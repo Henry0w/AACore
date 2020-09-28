@@ -14,6 +14,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.mojang.authlib.GameProfile;
 
+import cold.fyre.IcyHot;
+
 /**
  * Contains a list of different methods that use packets to which are sent to either
  * the server of player. The methods found here are SOME of the commonly used actions
@@ -72,7 +74,7 @@ public abstract class AbstractPacketManager {
 		public double toNumber() { return num; }
 	}
 	
-	public AbstractPacketManager(Server server, ServerVersion version/**, IcyHot coldfyre*/) {
+	public AbstractPacketManager(Server server, ServerVersion version, IcyHot coldfyre) {
 		this.server = server;
 		serverVersion = version;
 		//manager = coldfyre;
