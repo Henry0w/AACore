@@ -81,6 +81,24 @@ public abstract class AAPacket<P extends PluginManager<?>> extends AbstractPacke
 	}
 	
 	/**
+	 * Obtain the object value of the field of the Object class given.
+	 * @param field - Field of Object class
+	 * @param toGet - Object to get another Object from
+	 * @return Value of Field
+	 */
+	public Object getField(String field, Object toGet) {
+		Field toReturn;
+		
+		try {
+			toReturn = getPacket().getClass().getDeclaredField(field);
+			return toReturn.get(toGet);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			return null;
+		}
+	}
+	
+	/**
 	 * Sends this packet to the player. Note that the packet, if not done correctly or given null values
 	 * in incorrect places will cause this to throw an exception error and log the exception either in
 	 * the plugin folder of the plugin that tried to run this file, or in the generic folder found
