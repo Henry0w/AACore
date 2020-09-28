@@ -49,6 +49,7 @@ public class PacketManager extends AbstractPacketManager {
 
 	@Override
 	public void sendSubtitle(Player player, String title, String subtitle, int fadeIn, int showTime, int fadeOut) {
+		
 	}
 
 	@Override
