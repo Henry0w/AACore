@@ -31,7 +31,7 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	private String packetName;
 	private final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 	
-	// AACore Items
+	// IcyHot Items
 	private P manager;
 	private JavaPlugin plugin;
 	

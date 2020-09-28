@@ -25,6 +25,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @since 2.0
  *
  */
-public class AACore extends JavaPlugin {
+public class IcyHot extends JavaPlugin {
 
 }

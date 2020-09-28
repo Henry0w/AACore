@@ -43,7 +43,7 @@ public abstract class PluginManager<J extends JavaPlugin> {
 		footerMessage = new String[]{};
 		initMessages();
 		
-		//if(plugin.getServer().getServicesManager().isProvidedFor(PacketManager.class) && !(plugin instanceof AACore)) {
+		//if(plugin.getServer().getServicesManager().isProvidedFor(PacketManager.class) && !(plugin instanceof IcyHot)) {
 		//	packetManager = getRegisteredClass(PacketManager.class);
 		//}
 		

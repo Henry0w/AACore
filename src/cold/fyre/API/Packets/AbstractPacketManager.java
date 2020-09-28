@@ -136,7 +136,7 @@ public abstract class AbstractPacketManager {
 	/**
 	 * Creates a default Player NPC. There is no interaction of this NPC,
 	 * and a default skin of either Steve or Alex will be used. For a better
-	 * method, please look for an updated AACore. Returns the GameProfile of the
+	 * method, please look for an updated IcyHot. Returns the GameProfile of the
 	 * NPC so that it can be stored and respawned if someone joins, or the server
 	 * reloads.<br><br>
 	 * Versions: 1.8-1.15.1

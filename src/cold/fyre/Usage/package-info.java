@@ -4,7 +4,7 @@
  */
 /**
  * Not API material and is not supported for any handling when this plugin is used as a library. This
- * data is strictly to be used for AACore only.
+ * data is strictly to be used for IcyHot only.
  * 
  * @author Armeriness
  * @author Sommod
