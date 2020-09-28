@@ -90,6 +90,7 @@ public class PacketManager extends AbstractPacketManager {
 
 	@Override
 	protected void i(Player player) {
+		
 	}
 
 }
