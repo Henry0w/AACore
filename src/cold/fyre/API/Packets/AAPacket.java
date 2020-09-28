@@ -2,6 +2,8 @@ package cold.fyre.API.Packets;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -96,6 +98,32 @@ public abstract class AAPacket<P extends PluginManager<?>> extends AbstractPacke
 			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
 			return null;
 		}
+	}
+	
+	/**
+	 * Attempts to get the Enum Values of the Given class. Note that this will not allow you to obtain
+	 * any field members found within the class or obtain any data attached to the Enum Value. This
+	 * only gets the Enum itself. If the Enum value is not found, or an error occurs, then this will
+	 * return null.
+	 * @param enumClass - Enum class.
+	 * @param enumString - String representation of Enum value.
+	 * @return Enum as an Object.
+	 */
+	public Object getEnumValues(Class<?> enumClass, String enumString) {	
+		try {
+			List<?> listOfNames = Arrays.asList(enumClass.getEnumConstants());
+			
+			for(Object obj :  listOfNames) {
+				if(obj.toString().equalsIgnoreCase(enumString))
+					return obj;
+			}
+		} catch (SecurityException | IllegalArgumentException | ClassCastException e) {
+			FileManager.logExceptionToFile(getBasePlugin().getName(), e);
+			return null;
+		}
+		
+		return null;
+		
 	}
 	
 	/**
