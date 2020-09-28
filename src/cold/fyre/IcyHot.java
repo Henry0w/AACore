@@ -2,6 +2,8 @@ package cold.fyre;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cold.fyre.Usage.Manager;
+
 /**
  * Main class of the plugin. Nothing here is stored expect the PluginManager.
  * All initializations are found within the PluginManager class.<br>
@@ -26,5 +28,18 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  */
 public class IcyHot extends JavaPlugin {
+	
+	private Manager manager;
+	
+	@Override
+	public void onEnable() {
+		manager = new Manager(this);
+	}
+	
+	@Override
+	public void onDisable() {
+		if(manager != null)
+			manager.onShutdown();
+	}
 
 }
