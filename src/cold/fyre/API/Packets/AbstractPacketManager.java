@@ -47,14 +47,16 @@ public abstract class AbstractPacketManager {
 	 *
 	 */
 	public enum ServerVersion {
-		V1_8("1.8", 1.8), V1_8_8("1.8.8", 1.88), V1_9("1.9", 1.9), V1_9_4("1.9.4", 1.94), V1_10_2("1.10.2", 1.102),
-		V1_11_2("1.11.2", 1.112), V1_12_2("1.12.2", 1.122), V1_13("1.13", 1.13), V1_13_2("1.13.2", 1.132),
-		V1_14_4("1.14.4", 1.144), V1_15_1("1.15.1", 1.151), VERROR("Error", 0.0);
-		private String name;
+		V1_8("1.8", "v1_8_R1", 1.8), V1_8_8("1.8.8", "v1_8_R3", 1.88), V1_9("1.9", "v1_9_R1", 1.9), V1_9_4("1.9.4", "v1_9_R2", 1.94), V1_10_2("1.10.2", "v1_10_R1", 1.102),
+		V1_11_2("1.11.2", "v1_11_R1", 1.112), V1_12_2("1.12.2", "v1_12_R1", 1.122), V1_13("1.13", "v1_13_R1", 1.13), V1_13_2("1.13.2", "v1_13_R2", 1.132),
+		V1_14_4("1.14.4", "v1_14_R1", 1.144), V1_15_1("1.15.1", "v1_15_R1", 1.151), V1_16_1("1.16.1", "v1_16_R1", 1.161), V1_16_3("1.16.3", "v1_16_R2", 1.163), VERROR("Error", "Error", 0.0);
+		private String version;
+		private String packageVersion;
 		private double num;
 		
-		private ServerVersion(String name, double num) {
-			this.name = name;
+		private ServerVersion(String name, String packageVersion, double num) {
+			version = name;
+			this.packageVersion = packageVersion;
 			this.num = num;
 		}
 		
@@ -64,7 +66,9 @@ public abstract class AbstractPacketManager {
 		 * V1_15_1 will return "1.15.1".
 		 */
 		@Override
-		public String toString() { return name; }
+		public String toString() { return version;}
+		
+		public String toPackageString() { return packageVersion;}
 		
 		/**
 		 * The number will return a double of the version, i.e. V1_15_1
