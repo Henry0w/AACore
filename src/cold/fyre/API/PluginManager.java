@@ -17,6 +17,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cold.fyre.IcyHot;
+
 /**
  * 
  * @author Armeriness
@@ -30,7 +32,7 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	private J plugin;
 	private String[] headerMessage;
 	private String[] footerMessage;
-	//private PacketManager packetManager;
+	private PacketManager packetManager;
 	
 	/**
 	 * Stores the main JavaPlugin class file and initializes any
@@ -43,9 +45,9 @@ public abstract class PluginManager<J extends JavaPlugin> {
 		footerMessage = new String[]{};
 		initMessages();
 		
-		//if(plugin.getServer().getServicesManager().isProvidedFor(PacketManager.class) && !(plugin instanceof IcyHot)) {
-		//	packetManager = getRegisteredClass(PacketManager.class);
-		//}
+		if(plugin.getServer().getServicesManager().isProvidedFor(PacketManager.class) && !(plugin instanceof IcyHot)) {
+			packetManager = getRegisteredClass(PacketManager.class);
+		}
 		
 		onStartup();
 	}
@@ -365,6 +367,12 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	 * @return {@link ConsoleCommandSender}
 	 */
 	public ConsoleCommandSender getConsole() { return plugin.getServer().getConsoleSender(); }
+	
+	/**
+	 * Returns the PacketManager object.
+	 * @return PacketManager
+	 */
+	public PacketManager getPacketManager() { return packetManager; }
 	
 	// Used for formating the date used in the LogExceptionToFile method.
 	private String getDate() {
