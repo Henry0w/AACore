@@ -24,16 +24,7 @@ public class PacketManager extends AbstractPacketManager {
 	public PacketManager(Server server, ServerVersion version, Manager coldfyre) {
 		super(server, version, coldfyre);
 	}
-
-	/**
-	 * 
-	 * 
-	 * @param player
-	 * @param message
-	 * @param fadeIn
-	 * @param showTime
-	 * @param fadeOut
-	 */
+	
 	@Override
 	public void sendTitle(Player player, String message, int fadeIn, int showTime, int fadeOut) {
 		Packet title = new Packet("PacketPlayOutTitle", getManager());
@@ -49,11 +40,32 @@ public class PacketManager extends AbstractPacketManager {
 
 	@Override
 	public void sendSubtitle(Player player, String title, String subtitle, int fadeIn, int showTime, int fadeOut) {
-		
+		Packet main = new Packet("PacketPlayOutTitle", getManager());
+		Packet sub = new Packet("PacketPlayOutTitle", getManager());
+		try {
+			main.createPacket(new Class<?>[]{main.getPacketClass("EnumTitleAction"), main.getPacketClass("IChatBaseComponent"), int.class, int.class, int.class},
+					new Object[]{main.getEnumValues(main.getPacketClass("EnumTitleAction"), "SUBTITLE"), main.getPacketClass("ChatSerializer").getMethod("a", String.class).invoke(main.getPacketClass("ChatSerializer"), "{\"text\":\"" + subtitle + "\"}"), fadeIn, showTime, fadeOut});
+			sub.createPacket(new Class<?>[]{sub.getPacketClass("EnumTitleAction"), sub.getPacketClass("IChatBaseComponent"), int.class, int.class, int.class},
+					new Object[]{sub.getEnumValues(sub.getPacketClass("EnumTitleAction"), "SUBTITLE"), sub.getPacketClass("ChatSerializer").getMethod("a", String.class).invoke(sub.getPacketClass("ChatSerializer"), "{\"text\":\"" + subtitle + "\"}"), fadeIn, showTime, fadeOut});
+			main.sendPacket(player);
+			sub.sendPacket(player);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void sendActionbar(Player player, String message) {
+		Packet bar = new Packet("PacketPlayOutTitle", getManager());
+		try {
+			bar.createPacket(new Class<?>[]{bar.getPacketClass("EnumbarAction"), bar.getPacketClass("IChatBaseComponent"), int.class, int.class, int.class},
+					new Object[]{bar.getEnumValues(bar.getPacketClass("EnumbarAction"), "ACTIONBAR"), bar.getPacketClass("ChatSerializer").getMethod("a", String.class).invoke(bar.getPacketClass("ChatSerializer"), "{\"text\":\"" + message + "\"}"), 2, 8, 2});
+			bar.sendPacket(player);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
