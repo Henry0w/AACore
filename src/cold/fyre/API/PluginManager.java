@@ -103,6 +103,17 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	public void logMessage(String message) { getLogger().log(Level.INFO, message); }
 	
 	/**
+	 * Logs all messages to the Console. This uses the default
+	 * logger of the server obtained from the plugin stored within this class.
+	 * If you want to use the Minecraft Color Codes, use the method {@link #getConsole()}.
+	 * @param messages - Text to display via console.
+	 */
+	public void logMessage(String[] messages) {
+		for(String m : messages)
+			getLogger().log(Level.INFO, m);
+	}
+	
+	/**
 	 * Similar to the {@link #logMessage(String)} method, this allows you to set the Level of the text
 	 * when sending it to the Console. To use the Minecraft Color Codes, use the {@link #getConsole()}
 	 * method.
