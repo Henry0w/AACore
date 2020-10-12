@@ -9,13 +9,21 @@ public class Manager extends PluginManager<IcyHot> {
 		super(plugin);
 	}
 	
+	private void checkPlugins() { }
+	
 	@Override
 	public void onStartup() {
+		logMessage(getHeaderMessage());
+		logMessage("Running pre-check...");
+		checkPlugins();
+		
+		logMessage(getFooterMessage());
 	}
 	
 	@Override
 	public void onShutdown() {
-		super.onShutdown();
+		logMessage(getHeaderMessage());
+		logMessage(getFooterMessage());
 	}
 	
 	@Override
