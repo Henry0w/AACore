@@ -22,8 +22,3 @@ main:
     # is turned to TRUE, then the commands will be disabled for all,
     # including Opped players.
     console only: false
-    
-    # You can disable the Developer message from appearing when a developer
-    # of THIS plugin joins the server. Note that only Opped players will
-    # see the message.
-    disable message: false
