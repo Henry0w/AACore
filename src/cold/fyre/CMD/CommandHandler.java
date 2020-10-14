@@ -3,6 +3,7 @@ package cold.fyre.CMD;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import cold.fyre.API.Utilities;
 import cold.fyre.CMD.Commands.CommandDisable;
@@ -24,6 +25,11 @@ public class CommandHandler implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
 		if(command.getName().equalsIgnoreCase("AACore")) {
+			if(args.length != 0 && manager.getConfig().getBoolean("console only") && !(sender instanceof Player)) {
+				sender.sendMessage("§c§lAACore §8§l>> §7Sorry, but in-game commands are disabled for this plugin.");
+				return true;
+			}
+			
 			switch (args.length) {
 			case 0:
 				new CommandVersion(sender, command, args, manager);
