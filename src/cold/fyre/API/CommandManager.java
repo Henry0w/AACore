@@ -145,6 +145,20 @@ public abstract class CommandManager<P extends PluginManager<?>> {
 	public boolean isRemoteConsole() { return remote != null; }
 	
 	/**
+	 * Checks if the server is running the Spigot Jar type.
+	 * @return True - if spigot
+	 */
+	public boolean isSpigot() {
+		
+		try {
+			Class.forName("org.spigotmc.SpigotConfig");
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+	}
+	
+	/**
 	 * Will display the text given from the parameter and
 	 * add the plugin name and color formatting to the message.
 	 * Color code based in Minecraft Color Codes.
