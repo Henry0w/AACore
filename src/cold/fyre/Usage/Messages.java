@@ -19,8 +19,6 @@ public enum Messages {
 	DISABLE("§fDisable","§cDisable §7[§cd§7]§f:§7 Attempts to disable a plugin. If the plugin is not an"
 			+ " §7AA-plugin, or if the plugin does not allow disabling, then the plugin will not be"
 			+ " §7disabled.", "/AACore Disable <plugin>"),
-	RELOAD("§fReload","§cReload §7[§cr §7| §crl§7]§f:§7 Reloads the plugin data without having to restart"
-			+ " §7the server.", "/AACore Reload"),
 	LIST("§fList","§cList §7[§cl§7]§f:§7 Lists all AA-plugins on the server; as well as whether they are"
 			+ " §7enabled or disabled", "/AACore List");
 	
