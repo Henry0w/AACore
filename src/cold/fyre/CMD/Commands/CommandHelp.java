@@ -19,7 +19,7 @@ public class CommandHelp extends CommandManagerHandler {
 	
 	@Override
 	public void execute() {
-		if(isPlayer() && !PermissionChecker.hasOneOfPermissions(getPlayer(), Perms.values())) {
+		if(isPlayer() && (!getPlayer().isOp() || !PermissionChecker.hasOneOfPermissions(getPlayer(), Perms.values()))) {
 			getPlayer().sendMessage("§c§lAACore §8§l>> §7Sorry, but you do not have permission to perform this command.");
 			return;
 		}
