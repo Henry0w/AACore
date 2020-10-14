@@ -1,5 +1,7 @@
 package cold.fyre.API;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -125,6 +127,12 @@ public abstract class CommandManager<P extends PluginManager<?>> {
 	 * @return {@link PluginManager}
 	 */
 	public P getPluginManager() { return pluginManager; }
+	
+	/**
+	 * Gets the server this plugin is running on.
+	 * @return Server
+	 */
+	public Server getServer() { return Bukkit.getServer(); }
 	
 	/**
 	 * Checks if the CommandSender was a player entity.
