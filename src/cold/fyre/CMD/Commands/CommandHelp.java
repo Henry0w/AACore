@@ -3,10 +3,12 @@ package cold.fyre.CMD.Commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import cold.fyre.API.PermissionChecker;
 import cold.fyre.API.Utilities;
 import cold.fyre.CMD.CommandManagerHandler;
 import cold.fyre.Usage.Manager;
 import cold.fyre.Usage.Messages;
+import cold.fyre.Usage.Perms;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class CommandHelp extends CommandManagerHandler {
@@ -17,6 +19,11 @@ public class CommandHelp extends CommandManagerHandler {
 	
 	@Override
 	public void execute() {
+		if(isPlayer() && !PermissionChecker.hasOneOfPermissions(getPlayer(), Perms.values())) {
+			getPlayer().sendMessage("§c§lAACore §8§l>> §7Sorry, but you do not have permission to perform this command.");
+			return;
+		}
+		
 		if(getArgs().length < 2) {
 			if(isSpigot()) {
 				if(isPlayer()) {
