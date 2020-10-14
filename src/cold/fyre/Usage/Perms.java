@@ -11,7 +11,7 @@ package cold.fyre.Usage;
 public enum Perms {
 	
 	
-	OP("*"), ENABLE("enable"), DISABLE("disable"), RELOAD("reload");
+	OP("*"), ENABLE("enable"), DISABLE("disable");
 	
 	private String name;
 	

@@ -9,13 +9,11 @@ Commands: < > - Required | [ ] - optional |
 /AACore Enable <plugin> - Enables an AACore plugin.
 /AACore Disable <plugin> - Disables an AACore plugin.
 /AACore list - Lists all AACore and hard-dependent plugins.
-/AACore reload - Reloads the plugin and it's data.
 
 Permissions:
 aacore.* - All permissions
 aacore.enable - allows enabling an AACore plugin.
 aacore.disable - allows disabling an AACore plugin.
-aacore.reload - Allows reloading the plugin data.
 
 Note:
 the 'Help' and 'List' command are available to anyone who has ANY of the above permissions.
