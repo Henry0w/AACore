@@ -5,18 +5,7 @@
 #################################
 
 main:
-    
-    # Sets whether the plugin 'PlugMan' can disable this plugin.
-    # This will also determine if any plugin that is hard-dependent
-    # of this plugin can be disabled by 'PlugMan'.
-    # NOTE: This plugin has it's own version of enabling and disabling
-    # for hard-dependent AACore plugins. Each plugin that is created
-    # by the AACore studio will have their own setting to be able
-    # to be disabled or not. If the plugin is not created by the AACore
-    # studio, then it will if the developer supports enabling / disabling
-    # of their plugin.
-    plugman disable: true
-    
+
     # This determines if the commands can be used in-game, or are
     # only available to be used in Console. Note that if this setting
     # is turned to TRUE, then the commands will be disabled for all,
