@@ -104,7 +104,7 @@ public class PermissionChecker {
 	 * @param permissions - String array of permissions to check
 	 * @return True - if at least one permission is found.
 	 */
-	public static boolean hasOneOfPermisions(Player player, String... permissions) {
+	public static boolean hasOneOfPermissions(Player player, String... permissions) {
 		if(player == null || !player.isOnline() || permissions == null) return false;
 		
 		for(String s : permissions)
