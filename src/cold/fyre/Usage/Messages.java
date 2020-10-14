@@ -12,24 +12,26 @@ package cold.fyre.Usage;
 public enum Messages {
 	
 	HELP("§fHelp","§cHelp §7[§ch§7]§f: §7Shows a list of commands that can be issued as well as the ability"
-			+ " §7to show more information about the command."),
+			+ " §7to show more information about the command.", "/AACore Help [command]"),
 	ENABLE("§fEnable","§cEnable §7[§ce§7]§f:§7 Attempts to enable a plugin. If the plugin is not an AA-plugin,"
 			+ " §7then the plugin will not enable. This will only enable AA-plugins created by the official"
-			+ " §7AA-team studio."),
+			+ " §7AA-team studio.", "/AACore Enable <plugin>"),
 	DISABLE("§fDisable","§cDisable §7[§cd§7]§f:§7 Attempts to disable a plugin. If the plugin is not an"
 			+ " §7AA-plugin, or if the plugin does not allow disabling, then the plugin will not be"
-			+ " §7disabled."),
+			+ " §7disabled.", "/AACore Disable <plugin>"),
 	RELOAD("§fReload","§cReload §7[§cr §7| §crl§7]§f:§7 Reloads the plugin data without having to restart"
-			+ " §7the server."),
+			+ " §7the server.", "/AACore Reload"),
 	LIST("§fList","§cList §7[§cl§7]§f:§7 Lists all AA-plugins on the server; as well as whether they are"
-			+ " §7enabled or disabled");
+			+ " §7enabled or disabled", "/AACore List");
 	
 	private String header;
 	private String message;
+	private String command;
 	
-	private Messages(String header, String message) {
+	private Messages(String header, String message, String command) {
 		this.header = header;
 		this.message = message;
+		this.command = command;
 	}
 	
 	/**
@@ -43,5 +45,12 @@ public enum Messages {
 	 * @return Formatted Help header
 	 */
 	public String toHeader() { return header; }
+	
+	/**
+	 * Obtains the command syntax of the message. This is mainly used
+	 * for Spigot text handling. This includes the '/'.
+	 * @return Command String
+	 */
+	public String toCommand() { return command; }
 
 }
