@@ -14,9 +14,9 @@ import cold.fyre.Usage.Manager;
  * @version 2.0
  *
  */
-public class CommandHandler extends CommandManager<Manager> {
+public class CommandManagerHandler extends CommandManager<Manager> {
 
-	protected CommandHandler(CommandSender sender, Command command, String[] args, Manager pluginManager) {
+	protected CommandManagerHandler(CommandSender sender, Command command, String[] args, Manager pluginManager) {
 		super(sender, command, args, pluginManager);
 	}
 
