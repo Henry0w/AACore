@@ -52,8 +52,6 @@ public class CommandHelp extends CommandManagerHandler {
 				sendMessage(Messages.DISABLE);
 			else if(Utilities.isAny(getArg(1), "list", "l"))
 				sendMessage(Messages.LIST);
-			else if(Utilities.isAny(getArg(1), "reload", "rl", "r"))
-				sendMessage(Messages.RELOAD);
 			else
 				getBaseSender().sendMessage("§c§lAACore §8§l>> §7Error, no command help for §b" + getArg(1));
 				
