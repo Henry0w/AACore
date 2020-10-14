@@ -73,13 +73,13 @@ public class Utilities {
 	
 	/**
 	 * Wraps the string into an array based on the amount of words per line.
-	 * @param toWarp - String to word-wrap
+	 * @param toWrap - String to word-wrap
 	 * @param words - amount of words per line
 	 * @return Array of string
 	 */
-	public static String[] wordWrapper(String toWarp, int words) {
-		String[] toReturn = new String[(int) Math.ceil(toWarp.split(" ").length / (double) words)];
-		String[] indiv = toWarp.split(" ");
+	public static String[] wordWrapper(String toWrap, int words) {
+		String[] toReturn = new String[(int) Math.ceil(toWrap.split(" ").length / (double) words)];
+		String[] indiv = toWrap.split(" ");
 		
 		for(int line = 0; line < toReturn.length; line++) {
 			String lineSetter = "";
@@ -90,6 +90,23 @@ public class Utilities {
 			lineSetter = lineSetter.trim();
 			toReturn[line] = lineSetter;
 		}
+		
+		return toReturn;
+	}
+	
+	/**
+	 * Warps the string into a single string, but places the return symbol within
+	 * the object to execute a new line. (ie. \n is added to the end of each warp).
+	 * @param toWarp - String to word-wrap
+	 * @param words - Amount of words per line
+	 * @return toWrap with String execution.
+	 */
+	public static String wordWrapperSingle(String toWrap, int words) {
+		String[] get = wordWrapper(toWrap, words);
+		String toReturn = "";
+		
+		for(String g : get)
+			toReturn += (g + "\n");
 		
 		return toReturn;
 	}
@@ -177,6 +194,22 @@ public class Utilities {
 		main.setClickEvent(new ClickEvent(action, textAction));
 		
 		return main;
+	}
+	
+	/**
+	 * Does a simple check if the string provided is any of the other given Strings.
+	 * This ignores the case of the Strings.
+	 * @param comapre - String checking
+	 * @param toCheck - Strings to check
+	 * @return True - if String is one of the Checks.
+	 */
+	public static boolean isAny(String comapre, String... toCheck) {
+		for(String c : toCheck) {
+			if(c.equalsIgnoreCase(comapre))
+				return true;
+		}
+		
+		return false;
 	}
 
 }
