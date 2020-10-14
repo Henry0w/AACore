@@ -155,7 +155,7 @@ public class Utilities {
 	 * @param distance - Number of blocks to check
 	 * @return Block of player looking at.
 	 */
-	public Block getTargetBlock(Player player, int distance) { return player.getTargetBlock((Set<Material>) null, distance); }
+	public static Block getTargetBlock(Player player, int distance) { return player.getTargetBlock((Set<Material>) null, distance); }
 	
 	/**
 	 * Creates clickable text in the chat. You can set what action the click will have with
@@ -168,7 +168,7 @@ public class Utilities {
 	 * @param action - Action that occurs when text is clicked.
 	 * @return
 	 */
-	public TextComponent formatClickableMessage(String text, String hoverText, String textAction, ClickEvent.Action action) {
+	public static TextComponent formatClickableMessage(String text, String hoverText, String textAction, ClickEvent.Action action) {
 		TextComponent main = new TextComponent(text);
 		
 		if(hoverText != null)
