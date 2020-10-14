@@ -6,4 +6,4 @@ description: A library of data that is used in plugin creation.
 
 commands:
   aacore:
-    usage: Invalid command given, use AACore help for list of commands.
+    usage: use /AACore help for more list of commands.
