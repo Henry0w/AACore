@@ -6,6 +6,14 @@ import org.bukkit.command.CommandSender;
 import cold.fyre.API.CommandManager;
 import cold.fyre.Usage.Manager;
 
+/**
+ * Used to extend the CommandManager class.
+ * 
+ * @author Armeriness
+ * @author Sommod
+ * @version 2.0
+ *
+ */
 public class CommandHandler extends CommandManager<Manager> {
 
 	protected CommandHandler(CommandSender sender, Command command, String[] args, Manager pluginManager) {
