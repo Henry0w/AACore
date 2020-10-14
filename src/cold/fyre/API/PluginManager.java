@@ -18,6 +18,10 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
+ * Contains methods that are useful for common plugin use. This helps
+ * maintain data within your plugin, allowing quick actions to be done
+ * that would normally required an entire method or action to be
+ * constructed.
  * 
  * @author Armeriness
  * @author Sommod
