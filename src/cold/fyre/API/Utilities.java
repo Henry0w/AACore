@@ -187,7 +187,6 @@ public class Utilities {
 	 */
 	public static TextComponent formatClickableMessage(String text, String hoverText, String textAction, ClickEvent.Action action) {
 		TextComponent main = new TextComponent(text);
-		
 		if(hoverText != null)
 			main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
 		
