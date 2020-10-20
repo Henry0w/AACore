@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
@@ -39,7 +40,14 @@ public class Configuration extends YamlConfiguration {
 	 * the file.
 	 * @param yamlFile - File to save data to
 	 */
-	public Configuration(File yamlFile) { file = yamlFile; }
+	public Configuration(File yamlFile) {
+		file = yamlFile;
+		try {
+			load(yamlFile);
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Loads a file as this configs file to use for saving data.
