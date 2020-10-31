@@ -29,7 +29,7 @@ public abstract class AbstractPacket<P extends PluginManager<?>> {
 	private Server server = Bukkit.getServer();
 	private Object packet;
 	private String packetName;
-	private final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+	private final String version = server.getClass().getPackage().getName().split("\\.")[3];
 	
 	// IcyHot Items
 	private P manager;
