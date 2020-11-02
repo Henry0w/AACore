@@ -17,6 +17,7 @@ public class CommandHelp extends CommandManagerHandler {
 		super(sender, command, args, pluginManager);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void execute() {
 		if(isPlayer() && (!getPlayer().isOp() || !PermissionChecker.hasOneOfPermissions(getPlayer(), Perms.values()))) {
