@@ -185,6 +185,7 @@ public class Utilities {
 	 * @param action - Action that occurs when text is clicked.
 	 * @return
 	 */
+	@Deprecated
 	public static TextComponent formatClickableMessage(String text, String hoverText, String textAction, ClickEvent.Action action) {
 		TextComponent main = new TextComponent(text);
 		if(hoverText != null)
