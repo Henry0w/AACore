@@ -12,6 +12,8 @@ import java.util.List;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import cold.fyre.API.Managers.FileManager;
+
 /**
  * This contains all the methods and actions to the YamlConfiguration
  * class that bukkit uses to handle .YML files. However this extension
