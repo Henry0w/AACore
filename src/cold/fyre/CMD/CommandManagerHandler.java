@@ -3,7 +3,7 @@ package cold.fyre.CMD;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import cold.fyre.API.CommandManager;
+import cold.fyre.API.Managers.CommandManager;
 import cold.fyre.Usage.Manager;
 
 /**
