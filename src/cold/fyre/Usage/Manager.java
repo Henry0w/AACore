@@ -5,7 +5,7 @@ import java.io.File;
 import org.bukkit.event.HandlerList;
 
 import cold.fyre.IcyHot;
-import cold.fyre.API.PluginManager;
+import cold.fyre.API.Managers.PluginManager;
 import cold.fyre.CMD.CommandHandler;
 import cold.fyre.Events.DeveloperMessage;
 
