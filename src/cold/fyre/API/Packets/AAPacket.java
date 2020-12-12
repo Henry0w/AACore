@@ -1,5 +1,9 @@
 package cold.fyre.API.Packets;
 
+import java.util.Locale;
+
+import org.bukkit.entity.Player;
+
 import cold.fyre.API.Managers.FileManager;
 
 /**
@@ -18,29 +22,113 @@ import cold.fyre.API.Managers.FileManager;
  */
 public interface AAPacket {
 	
+	/**
+	 * Gets the name of the packet intended to use.
+	 * @return Name of the Packet Class
+	 */
 	String getName();
+	
+	/**
+	 * Gets the packet in the form of an object.
+	 * @return Packet
+	 */
 	Object getPacket();
+	
+	/**
+	 * Runs the method of the given method name. This will return the
+	 * object of the method. If the method is a void method, then this
+	 * a NULL object.
+	 * @param methodName - name of method to run
+	 * @param parameters - any parameters needed by the method
+	 * @return Object of method, or null
+	 */
 	Object runMethod(String methodName, Object... parameters);
-	Object getField(String fieldName);
-	void setField(String fieldName, Object value);
-	static Enum<?> getEnum(String packetClass) {
-		Enum<?> toReturn = null;
+	
+	/**
+	 * Gets the value of the field.
+	 * @param fieldName - name of field
+	 * @return Object of value
+	 */
+	Object getFieldValue(String fieldName);
+	
+	/**
+	 * Sets the field to the given value. If the
+	 * field is not compatible, then this method
+	 * will thrown an error.
+	 * @param fieldName
+	 * @param value
+	 */
+	void setFieldValue(String fieldName, Object value);
+	
+	
+	/**
+	 * This Gets the Enumeration Object of the given class. Note that the
+	 * class has be of the Enum class, otherwise this will return null.
+	 * <b>Note:</b> If the class you are trying to obtain is an inner class,
+	 * you need to properly supply the class package end. ie.<br><br>
+	 * <i>getEnum("outterClass$innerClass, "myEnum");</i>
+	 * <p>
+	 * public class outterClass {<br>
+	 * &emsp;&emsp; public enum innerClass {<br>
+	 * <br>
+	 * &emsp;&emsp;}<br>
+	 * }
+	 * </p>
+	 * 
+	 * @param packetClass
+	 * @return Enum constant
+	 */
+	static Enum<?> getEnum(String packetClass, String enumName) {
 		
 		try {
 			Class<?> packetClazz = Class.forName(packetClass);
 			
-			if(packetClazz.isEnum()) {
-				toReturn = (Enum<?>) packetClazz.cast(Enum.class);
-			}
-		} catch (ClassNotFoundException e) {
+			if(packetClazz.isEnum())
+				return Enum.valueOf(packetClazz.asSubclass(Enum.class), enumName.toUpperCase(Locale.ROOT));
+		} catch (ClassNotFoundException | ClassCastException e) {
 			e.printStackTrace();
 			FileManager.logExceptionToFile(null, e);
 		}
 		
-		return toReturn;
+		return null;
 	}
 	
+	/**
+	 * Obtains the class object of the given class name. This is used
+	 * more commonly used for Abstract classes and Interfaces.
+	 * @param packetClass - name of class to obtain
+	 * @return Class
+	 */
+	static Class<?> getClass(String packetClass) {
+		try {
+			return Class.forName(packetClass);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			FileManager.logExceptionToFile(null, e);
+			return null;
+		}
+	}
+	
+	/**
+	 * Gets the error that would occur if the packet object was
+	 * to be called. If no Exception would be thrown, then this
+	 * will return null.
+	 * @return Exception that would be thrown
+	 */
 	Exception getError();
+	
+	/**
+	 * Checks if the Packet has an error when trying to get it.
+	 * This can be used to check if the packet is ready to get
+	 * and if the method {@link #getError()} should be ran.
+	 * @return
+	 */
 	boolean hasError();
+	
+	/**
+	 * Sends the packet to the player.
+	 * @param player - player to send packet to
+	 */
+	void sendPacket(Player player);
 
 }
