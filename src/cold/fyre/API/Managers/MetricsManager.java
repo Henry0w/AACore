@@ -7,13 +7,6 @@ import java.util.concurrent.Callable;
 import org.bukkit.plugin.Plugin;
 
 import cold.fyre.API.Metrics;
-import cold.fyre.API.Metrics.AdvancedBarChart;
-import cold.fyre.API.Metrics.AdvancedPie;
-import cold.fyre.API.Metrics.DrilldownPie;
-import cold.fyre.API.Metrics.MultiLineChart;
-import cold.fyre.API.Metrics.SimpleBarChart;
-import cold.fyre.API.Metrics.SimplePie;
-import cold.fyre.API.Metrics.SingleLineChart;
 
 /**
  * A set of functions to add different charts
