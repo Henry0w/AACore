@@ -10,6 +10,16 @@ import org.bukkit.entity.Player;
 
 import cold.fyre.API.Managers.FileManager;
 
+/**
+ * Used to create a packet or class found within the NMS package. Using this
+ * allows the use of the class across all versions that contain the class
+ * without having to update / have version control.
+ * 
+ * @author Armeriness
+ * @author Sommod
+ * @since 2.0
+ *
+ */
 public class Packet implements AAPacket {
 	
 	// Used to get details of the server
@@ -20,6 +30,11 @@ public class Packet implements AAPacket {
 	private Object packet;
 	private Exception exception;
 	
+	/**
+	 * Creates a new instance of the class
+	 * @param packetName - name of NMS class
+	 * @param parameters - parameters constructor takes (empty if necessary)
+	 */
 	public Packet(String packetName, Object... parameters) {
 		try {
 			Class<?> packetClass = Class.forName("net.minecraft.server." + serverVersion + "." + packetName);
