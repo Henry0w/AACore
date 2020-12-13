@@ -3,6 +3,7 @@ package cold.fyre.API.Packets;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -108,10 +109,58 @@ public class Packet implements AAPacket {
 			Object handle = player.getClass().getMethod("getHandle").invoke(player);
 			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 			
-			playerConnection.getClass().getMethod("sendPacket", AAPacket.getClass("Packet")).invoke(playerConnection, packet);
+			playerConnection.getClass().getMethod("sendPacket", getClass("Packet")).invoke(playerConnection, packet);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
 			e.printStackTrace();
 			FileManager.logExceptionToFile(null, e);
+		}
+	}
+	
+	/**
+	 * This Gets the Enumeration Object of the given class. Note that the
+	 * class has be of the Enum class, otherwise this will return null.
+	 * <b>Note:</b> If the class you are trying to obtain is an inner class,
+	 * you need to properly supply the class package end. ie.<br><br>
+	 * <i>getEnum("outterClass$innerClass, "myEnum");</i>
+	 * <p>
+	 * public class outterClass {<br>
+	 * &emsp;&emsp; public enum innerClass {<br>
+	 * <br>
+	 * &emsp;&emsp;}<br>
+	 * }
+	 * </p>
+	 * 
+	 * @param packetClass
+	 * @return Enum constant
+	 */
+	public static Enum<?> getEnum(String packetClass, String enumName) {
+		
+		try {
+			Class<?> packetClazz = Class.forName(packetClass);
+			
+			if(packetClazz.isEnum())
+				return Enum.valueOf(packetClazz.asSubclass(Enum.class), enumName.toUpperCase(Locale.ROOT));
+		} catch (ClassNotFoundException | ClassCastException e) {
+			e.printStackTrace();
+			FileManager.logExceptionToFile(null, e);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Obtains the class object of the given class name. This is used
+	 * more commonly used for Abstract classes and Interfaces.
+	 * @param packetClass - name of class to obtain
+	 * @return Class
+	 */
+	public static Class<?> getClass(String packetClass) {
+		try {
+			return Class.forName(packetClass);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			FileManager.logExceptionToFile(null, e);
+			return null;
 		}
 	}
 
