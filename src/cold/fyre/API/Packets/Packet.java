@@ -66,7 +66,8 @@ public class Packet implements AAPacket {
 	 * @param packet - object representing this class
 	 */
 	public Packet(String packetName, Packet packet) {
-		this(packetName, packet.getPacket());
+		this.packetName = packetName;
+		this.packet = packet.getPacket();
 	}
 	
 	/**
