@@ -10,11 +10,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
-
 /**
  * A collection of misfit methods that reduce the amount of code needed to perform the actions
  * of the names of the methods found within this class.
@@ -173,28 +168,6 @@ public class Utilities {
 	 * @return Block of player looking at.
 	 */
 	public static Block getTargetBlock(Player player, int distance) { return player.getTargetBlock((Set<Material>) null, distance); }
-	
-	/**
-	 * Creates clickable text in the chat. You can set what action the click will have with
-	 * the ClickEvent Action. Note that this function works with Spigot-type servers. Meaning
-	 * Bukkit Servers cannot run this. If you do not want a Hover text, then make the hoverText
-	 * <b>null</b>.
-	 * @param text - Text to display in chat.
-	 * @param hoverText - Text to display when cursor is over text.
-	 * @param textAction - Text that supplies the Action.
-	 * @param action - Action that occurs when text is clicked.
-	 * @return
-	 */
-	@Deprecated
-	public static TextComponent formatClickableMessage(String text, String hoverText, String textAction, ClickEvent.Action action) {
-		TextComponent main = new TextComponent(text);
-		if(hoverText != null)
-			main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
-		
-		main.setClickEvent(new ClickEvent(action, textAction));
-		
-		return main;
-	}
 	
 	/**
 	 * Does a simple check if the string provided is any of the other given Strings.
