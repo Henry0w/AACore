@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Contains several functions that allow accessing, changing, or otherwise interacting with files and their directories.
@@ -102,8 +103,8 @@ public class FileManager {
 	 */
 	public static void logExceptionToFile(String pluginName, Exception e) {
 		File folder = null;
-		
-		if(pluginName != null)
+	
+		if(pluginName != null && !pluginName.isEmpty())
 			folder = new File(getPluginsFolder(), pluginName);
 		
 		if(folder == null || !folder.exists()) {
@@ -123,9 +124,45 @@ public class FileManager {
 				fw.append(element.toString() + "\n");
 			fw.close();
 		} catch (IOException e1) {
-			Bukkit.getServer().getLogger().log(Level.WARNING, "§cError, could not write error data to file, another error occurred.");
+			Bukkit.getServer().getLogger().log(Level.WARNING, "§cError, could not write error data to file, another error occurred, displaying Errors:");
+			e.printStackTrace();
+			e1.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * This logs an exception to a file within the plugins folder. If the plugin
+	 * given is null, then this will log the exception to the generic Error Logs
+	 * folder found within the <b>plugins</b> folder. Otherwise, this will create
+	 * a folder called <i>Error Logs</i> within your plugin folder and create the
+	 * file containing the error.
+	 * 
+	 * @param plugin - your plugin.
+	 * @param e - the exception to log
+	 */
+	public static void logExceptionToFile(Plugin plugin, Exception e) {
+		if(plugin == null)
+			logExceptionToFile("", e);
+		else {
+			File folder = new File(plugin.getDataFolder(), "Error Logs");
+			folder.mkdir();
+			
+			File toLog = new File(folder, getDate() + ".txt");
+			NotNull(toLog);
+			toLog.setWritable(true);
+			
+			try {
+				FileWriter fw = new FileWriter(toLog);
+				for(StackTraceElement element : e.getStackTrace())
+					fw.append(element.toString() + "\n");
+				fw.close();
+			} catch (IOException e1) {
+				Bukkit.getServer().getLogger().log(Level.WARNING, "§cError, could not write error data to file, another error occurred, displaying errors:");
+				e.printStackTrace();
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 	// Used for formating the date used in the LogExceptionToFile method.
