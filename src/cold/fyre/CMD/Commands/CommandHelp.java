@@ -4,12 +4,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import cold.fyre.API.PermissionChecker;
+import cold.fyre.API.TextComponentHandler;
+import cold.fyre.API.TextComponentHandler.Action;
 import cold.fyre.API.Utilities;
 import cold.fyre.CMD.CommandManagerHandler;
 import cold.fyre.Usage.Manager;
 import cold.fyre.Usage.Messages;
 import cold.fyre.Usage.Perms;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class CommandHelp extends CommandManagerHandler {
 
@@ -17,7 +18,6 @@ public class CommandHelp extends CommandManagerHandler {
 		super(sender, command, args, pluginManager);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void execute() {
 		if(isPlayer() && (!getPlayer().isOp() || !PermissionChecker.hasOneOfPermissions(getPlayer(), Perms.values()))) {
@@ -31,7 +31,7 @@ public class CommandHelp extends CommandManagerHandler {
 					getPlayer().sendMessage("§c§m-----§f§l Help §c§m-----");
 					
 					for(Messages m : Messages.values())
-						getPlayer().spigot().sendMessage(Utilities.formatClickableMessage(m.toCommand(), Utilities.wordWrapperSingle(m.toString(), 13), m.toCommand(), Action.SUGGEST_COMMAND));
+						getPlayer().spigot().sendMessage(TextComponentHandler.createClickableMessage(m.toCommand(), Utilities.wordWrapperSingle(m.toString(), 13), m.toCommand(), Action.SUGGEST_COMMAND));
 					
 					getPlayer().sendMessage("§c§m----------------");
 				} else {
