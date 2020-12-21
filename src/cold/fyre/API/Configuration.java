@@ -80,7 +80,7 @@ public class Configuration extends YamlConfiguration {
 			writer.flush();
 			writer.close();
 		} catch (IOException | NullPointerException e) {
-			FileManager.logExceptionToFile(null, e);
+			FileManager.logExceptionToFile("", e);
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class Configuration extends YamlConfiguration {
 			writer.flush();
 			writer.close();
 		} catch (IOException | NullPointerException e) {
-			FileManager.logExceptionToFile(null, e);
+			FileManager.logExceptionToFile("", e);
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class Configuration extends YamlConfiguration {
 			return builder.toString();
 			
 		} catch (IOException | NullPointerException e) {
-			FileManager.logExceptionToFile(null, e);
+			FileManager.logExceptionToFile("", e);
 		}
 		
 		return null;
