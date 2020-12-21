@@ -1,18 +1,13 @@
 package cold.fyre.API.Packets;
 
-import java.util.UUID;
-
-import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-
-import com.mojang.authlib.GameProfile;
 
 import cold.fyre.Usage.Manager;
 
@@ -153,7 +148,7 @@ public abstract class AbstractPacketManager {
 	 * @param name - Name of NPC.
 	 * @return GameProfile.
 	 */
-	public abstract GameProfile createNPCPlayer(Location location, UUID uuid, String name);
+	//public abstract GameProfile createNPCPlayer(Location location, UUID uuid, String name);
 	
 	/**
 	 * Creates an NPC that has no interaction with the world. The EntityType of the entity
@@ -168,7 +163,7 @@ public abstract class AbstractPacketManager {
 	 * @param name - Name of entity
 	 * @return Entity
 	 */
-	public abstract Entity createNPC(EntityType type, Location location, String name);
+	//public abstract Entity createNPC(EntityType type, Location location, String name);
 	
 	/**
 	 * Set the given NBTTag to the value towards the entity. For a list of NBTTags,
@@ -283,7 +278,7 @@ public abstract class AbstractPacketManager {
 	 * Versions: 1.8-1.15.1
 	 * @param player - Player to send sign.
 	 */
-	public abstract void sendSign(Player player);
+	public abstract void sendSign(Player player, Sign sign);
 	
 	/**
 	 * <b>Warning:</b> This is not a method to be used. This is ONLY
@@ -307,7 +302,7 @@ public abstract class AbstractPacketManager {
 	 * Versions: 1.8-1.15.1
 	 */
 	@Deprecated
-	protected abstract void i(Player player);
+	protected abstract void i(Player player, Sign sign);
 
 
 }
