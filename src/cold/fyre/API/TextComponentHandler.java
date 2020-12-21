@@ -31,6 +31,16 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 @SuppressWarnings("deprecation")
 public class TextComponentHandler {
 	
+	/**
+	 * This contains the different <i>Actions</i> that can be taken when using creating
+	 * a TextCompononet. This only contains the mainly used actions, thus not all the
+	 * options are available to to be used when creating a TextComponent class.
+	 * 
+	 * @author Armeriness
+	 * @author Sommod
+	 * @since 2.0
+	 *
+	 */
 	public enum Action {
 		RUN_COMMAND, SUGGEST_COMMAND, OPEN_URL;
 	}
