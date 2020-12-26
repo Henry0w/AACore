@@ -42,8 +42,8 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	 */
 	public PluginManager(final J plugin) {
 		this.plugin = plugin;
-		headerMessage = new String[]{};
-		footerMessage = new String[]{};
+		headerMessage = new String[3];
+		footerMessage = new String[3];
 		initMessages();
 		onStartup();
 	}
