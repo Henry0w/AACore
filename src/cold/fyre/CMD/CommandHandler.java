@@ -9,6 +9,7 @@ import cold.fyre.API.Utilities;
 import cold.fyre.CMD.Commands.CommandDisable;
 import cold.fyre.CMD.Commands.CommandEnable;
 import cold.fyre.CMD.Commands.CommandHelp;
+import cold.fyre.CMD.Commands.CommandList;
 import cold.fyre.CMD.Commands.CommandVersion;
 import cold.fyre.Usage.Manager;
 
@@ -39,8 +40,11 @@ public class CommandHandler implements CommandExecutor {
 				if(Utilities.isAny(args[0], "help", "h"))
 					new CommandHelp(sender, command, args, manager);
 				else if(Utilities.isAny(args[0], "list", "l"))
-					new CommandEnable(sender, command, args, manager);
-				else
+					new CommandList(sender, command, args, manager);
+				else if(Utilities.isAny(args[0], "reload", "rl", "r")) {
+					manager.onReload();
+					sender.sendMessage("§c§lAACore §8§7>> §7Plugin reloaded.");
+				} else
 					sender.sendMessage("§c§lAACore §8§l>> §7Error, invalid arguments given.");
 				return true;
 			

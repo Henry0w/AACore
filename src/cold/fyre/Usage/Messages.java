@@ -20,7 +20,8 @@ public enum Messages {
 			+ " §7AA-plugin, or if the plugin does not allow disabling, then the plugin will not be"
 			+ " §7disabled.", "/AACore Disable <plugin>"),
 	LIST("§fList","§cList §7[§cl§7]§f:§7 Lists all AA-plugins on the server; as well as whether they are"
-			+ " §7enabled or disabled", "/AACore List");
+			+ " §7enabled or disabled", "/AACore List"),
+	RELOAD("§fReload", "§cReload§7[§crl §7| §cr§7]§f:§7 Reloads the plugin and any data that needs to be re-created.", "/AACore Reload");
 	
 	private String header;
 	private String message;
