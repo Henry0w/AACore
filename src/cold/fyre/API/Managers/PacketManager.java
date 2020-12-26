@@ -42,7 +42,7 @@ public class PacketManager extends AbstractPacketManager {
 	public void sendTitle(Player player, String message, int fadeIn, int showTime, int fadeOut) {
 		try {
 			Enum<?> enumTitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "TITLE");
-			String chatComponent = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message));
+			String chatComponent = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message.replace('&', '§')));
 			Packet title = new Packet("PacketPlayOutTitle", enumTitleAction, chatComponent, fadeIn * 4, showTime * 4, fadeOut * 4);
 
 			title.sendPacket(player);
@@ -57,8 +57,8 @@ public class PacketManager extends AbstractPacketManager {
 		try {
 			Enum<?> enumTitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "TITLE");
 			Enum<?> enumSubtitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "SUBTITLE");
-			String chatComponentTitle = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(title));
-			String chatComponentSub = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(subtitle));
+			String chatComponentTitle = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(title.replace('&', '§')));
+			String chatComponentSub = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(subtitle.replace('&', '§')));
 			Packet main = new Packet("PacketPlayOutTitle", enumTitleAction, chatComponentTitle, fadeIn * 4, showTime * 4, fadeOut * 4);
 			Packet sub = new Packet("PacketPlayOutTitle", enumSubtitleAction, chatComponentSub, fadeIn * 4, showTime * 4, fadeOut * 4);
 
@@ -74,7 +74,7 @@ public class PacketManager extends AbstractPacketManager {
 	public void sendActionbar(Player player, String message) {
 		try {
 			Enum<?> enumTitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "ACTIONBAR");
-			String chatComponent = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message));
+			String chatComponent = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message.replace('&', '§')));
 			Packet bar = new Packet("PacketPlayOutTitle", enumTitleAction, chatComponent, 8, 2, 8);
 
 			bar.sendPacket(player);
