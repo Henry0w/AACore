@@ -3,27 +3,27 @@ package cold.fyre.Usage;
 import java.io.File;
 
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.ServicePriority;
 
 import cold.fyre.IcyHot;
+import cold.fyre.API.Managers.PacketManager;
 import cold.fyre.API.Managers.PluginManager;
+import cold.fyre.API.Packets.AbstractPacketManager.ServerVersion;
 import cold.fyre.CMD.CommandHandler;
 import cold.fyre.Events.DeveloperMessage;
 
 public class Manager extends PluginManager<IcyHot> {
+	
+	private PacketManager pm;
 
 	public Manager(IcyHot plugin) {
 		super(plugin);
 	}
 	
-	private void checkPlugins() { }
-	
 	@Override
 	public void onStartup() {
 		logMessage(getHeaderMessage());
-		//logMessage("Running pre-check...");
-		checkPlugins();
 		
-		//logMessage("Pre-check complete");
 		logMessage("Registering Config files...");
 		registerConfigs();
 		
@@ -34,6 +34,8 @@ public class Manager extends PluginManager<IcyHot> {
 		logMessage("Commands Registered");
 		logMessage("Registering Events...");
 		new DeveloperMessage(this);
+		pm = new PacketManager(getPlugin().getServer(), getVersion(), this);
+		registerClass(PacketManager.class, pm, ServicePriority.Normal);
 		
 		logMessage("Events registered");
 		logMessage(getFooterMessage());
@@ -56,6 +58,17 @@ public class Manager extends PluginManager<IcyHot> {
 		
 		if(!config.exists())
 			createFile(getPlugin().getClass().getResourceAsStream("/Resources/config.yml"), config);
+	}
+	
+	private ServerVersion getVersion() {
+		String version = getPlugin().getServer().getClass().getPackage().getName().split("\\.")[3];
+		
+		for(ServerVersion sv : ServerVersion.values()) {
+			if(sv.toString().equalsIgnoreCase(version))
+				return sv;
+		}
+		
+		return ServerVersion.ERROR;
 	}
 
 }
