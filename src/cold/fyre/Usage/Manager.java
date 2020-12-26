@@ -14,7 +14,7 @@ import cold.fyre.Events.DeveloperMessage;
 
 public class Manager extends PluginManager<IcyHot> {
 	
-	private PacketManager pm;
+	private PacketManager pm = null;
 
 	public Manager(IcyHot plugin) {
 		super(plugin);
@@ -37,8 +37,10 @@ public class Manager extends PluginManager<IcyHot> {
 		
 		logMessage("Events Registered");
 		logMessage("Registering PacketManager...");
-		pm = new PacketManager(getPlugin().getServer(), getVersion(), this);
-		registerClass(PacketManager.class, pm, ServicePriority.Normal);
+		if(pm == null) {
+			pm = new PacketManager(getPlugin().getServer(), getVersion(), this);
+			registerClass(PacketManager.class, pm, ServicePriority.Normal);
+		}
 		
 		logMessage("Plugin enabled!");
 		logMessage(getFooterMessage());
