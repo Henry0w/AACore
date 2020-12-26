@@ -34,10 +34,13 @@ public class Manager extends PluginManager<IcyHot> {
 		logMessage("Commands Registered");
 		logMessage("Registering Events...");
 		new DeveloperMessage(this);
+		
+		logMessage("Events Registered");
+		logMessage("Registering PacketManager...");
 		pm = new PacketManager(getPlugin().getServer(), getVersion(), this);
 		registerClass(PacketManager.class, pm, ServicePriority.Normal);
 		
-		logMessage("Events registered");
+		logMessage("Plugin enabled!");
 		logMessage(getFooterMessage());
 	}
 	
