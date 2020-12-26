@@ -53,6 +53,12 @@ public class Manager extends PluginManager<IcyHot> {
 		logMessage(getFooterMessage());
 	}
 	
+	@Override
+	public boolean onReload() {
+		registerConfigs();
+		return true;
+	}
+	
 	private void registerConfigs() {
 		if(!getPlugin().getDataFolder().exists())
 			getPlugin().getDataFolder().mkdir();
