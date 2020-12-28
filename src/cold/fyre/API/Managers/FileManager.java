@@ -5,7 +5,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -112,7 +113,8 @@ public class FileManager {
 			folder.mkdir();
 			Bukkit.getServer().getConsoleSender().sendMessage("§cError: Could not log Exception to §b" + pluginName + "§c, folder does not exist."
 					+ "§c Logging Exception to §bError Logs§c folder in the §bplugins§c folder.");
-		}
+		} else
+			folder = new File(getPluginsFolder(), "Error Logs");
 		
 		File toLog = new File(folder, getDate() + ".txt");
 		NotNull(toLog);
@@ -167,9 +169,9 @@ public class FileManager {
 	
 	// Used for formating the date used in the LogExceptionToFile method.
 	private static String getDate() {
-		String toReturn = "";
-		toReturn += Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH + "-" + Calendar.HOUR_OF_DAY + Calendar.MINUTE + Calendar.SECOND;
-		return toReturn;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime ldt = LocalDateTime.now();
+		return formatter.format(ldt);
 	}
 
 }

@@ -75,7 +75,7 @@ public class Manager extends PluginManager<IcyHot> {
 		String version = getPlugin().getServer().getClass().getPackage().getName().split("\\.")[3];
 		
 		for(ServerVersion sv : ServerVersion.values()) {
-			if(sv.toString().equalsIgnoreCase(version))
+			if(sv.toPackageString().equalsIgnoreCase(version))
 				return sv;
 		}
 		
