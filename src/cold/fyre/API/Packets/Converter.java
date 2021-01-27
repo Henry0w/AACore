@@ -1,5 +1,6 @@
 package cold.fyre.API.Packets;
 
+import cold.fyre.API.Packets.minecraft.support.BlockPosition;
 import cold.fyre.API.Packets.minecraft.support.ChatMessage;
 import cold.fyre.API.Packets.minecraft.support.ChatMessageType;
 import cold.fyre.API.Packets.minecraft.support.MinecraftKey;
@@ -56,6 +57,11 @@ public class Converter {
 	public static Object convertChatMessage(ChatMessage message) {
 		PacketHandler cm = new PacketHandler("ChatMessage", message.getKey(), message.getArgs());
 		return cm.getPacket();
+	}
+	
+	public static Object convertBlockPosition(BlockPosition blockPosition) {
+		PacketHandler bp = new PacketHandler("BlockPosition", blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
+		return bp.getPacket();
 	}
 	
 	private static String getMethod(Object value) {
