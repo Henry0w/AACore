@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 
 /**
  * A small event that is used to detect an AA-plugin developer.
@@ -20,9 +20,9 @@ import cold.fyre.Usage.Manager;
  */
 public class DeveloperMessage implements Listener {
 	
-	private Manager manager;
+	private IcyHotManager manager;
 	
-	public DeveloperMessage(Manager manager) {
+	public DeveloperMessage(IcyHotManager manager) {
 		this.manager = manager;
 		manager.getPlugin().getServer().getPluginManager().registerEvents(this, manager.getPlugin());
 	}

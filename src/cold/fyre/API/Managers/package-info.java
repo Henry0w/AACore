@@ -1,8 +1,8 @@
 /**
- * Manager container
+ * IcyHotManager container
  */
 /**
- * Contains all the Manager classes
+ * Contains all the IcyHotManager classes
  * 
  * @author Armeriness
  * @author Sommod

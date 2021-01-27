@@ -6,12 +6,12 @@ import org.bukkit.plugin.Plugin;
 
 import cold.fyre.API.PermissionChecker;
 import cold.fyre.CMD.CommandManagerHandler;
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 import cold.fyre.Usage.Perms;
 
 public class CommandList extends CommandManagerHandler {
 
-	public CommandList(CommandSender sender, Command command, String[] args, Manager pluginManager) {
+	public CommandList(CommandSender sender, Command command, String[] args, IcyHotManager pluginManager) {
 		super(sender, command, args, pluginManager);
 	}
 	

@@ -8,13 +8,13 @@ import cold.fyre.API.TextComponentHandler;
 import cold.fyre.API.TextComponentHandler.Action;
 import cold.fyre.API.Utilities;
 import cold.fyre.CMD.CommandManagerHandler;
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 import cold.fyre.Usage.Messages;
 import cold.fyre.Usage.Perms;
 
 public class CommandHelp extends CommandManagerHandler {
 
-	public CommandHelp(CommandSender sender, Command command, String[] args, Manager pluginManager) {
+	public CommandHelp(CommandSender sender, Command command, String[] args, IcyHotManager pluginManager) {
 		super(sender, command, args, pluginManager);
 	}
 	

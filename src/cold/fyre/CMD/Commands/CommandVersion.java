@@ -4,11 +4,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import cold.fyre.CMD.CommandManagerHandler;
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 
 public class CommandVersion extends CommandManagerHandler {
 
-	public CommandVersion(CommandSender sender, Command command, String[] args, Manager pluginManager) {
+	public CommandVersion(CommandSender sender, Command command, String[] args, IcyHotManager pluginManager) {
 		super(sender, command, args, pluginManager);
 	}
 	

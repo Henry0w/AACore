@@ -1,7 +1,5 @@
 package cold.fyre.API.Packets;
 
-import org.bukkit.entity.Player;
-
 /**
  * Class that is used to handle classes of NMS. This uses reflection
  * to access and use the packets. As such, the normal methods will not
@@ -55,27 +53,4 @@ public interface AAPacket {
 	 * @param value
 	 */
 	void setFieldValue(String fieldName, Object value);
-	
-	/**
-	 * Gets the error that would occur if the packet object was
-	 * to be called. If no Exception would be thrown, then this
-	 * will return null.
-	 * @return Exception that would be thrown
-	 */
-	Exception getError();
-	
-	/**
-	 * Checks if the Packet has an error when trying to get it.
-	 * This can be used to check if the packet is ready to get
-	 * and if the method {@link #getError()} should be ran.
-	 * @return
-	 */
-	boolean hasError();
-	
-	/**
-	 * Sends the packet to the player.
-	 * @param player - player to send packet to
-	 */
-	void sendPacket(Player player);
-
 }

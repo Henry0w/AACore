@@ -2,7 +2,7 @@ package cold.fyre;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 
 /**
  * Main class of the plugin. Nothing here is stored expect the PluginManager.
@@ -29,11 +29,11 @@ import cold.fyre.Usage.Manager;
  */
 public class IcyHot extends JavaPlugin {
 	
-	private Manager manager;
+	private IcyHotManager manager;
 	
 	@Override
 	public void onEnable() {
-		manager = new Manager(this);
+		manager = new IcyHotManager(this);
 	}
 	
 	@Override

@@ -9,7 +9,7 @@ import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Manager class for Commands. This class provides several methods
+ * IcyHotManager class for Commands. This class provides several methods
  * that supply easy / simplified use of objects that are commonly used.
  * 
  * @author Armeriness

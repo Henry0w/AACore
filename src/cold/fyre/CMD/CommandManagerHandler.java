@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import cold.fyre.API.Managers.CommandManager;
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 
 /**
  * Used to extend the CommandManager class.
@@ -14,9 +14,9 @@ import cold.fyre.Usage.Manager;
  * @version 2.0
  *
  */
-public class CommandManagerHandler extends CommandManager<Manager> {
+public class CommandManagerHandler extends CommandManager<IcyHotManager> {
 
-	protected CommandManagerHandler(CommandSender sender, Command command, String[] args, Manager pluginManager) {
+	protected CommandManagerHandler(CommandSender sender, Command command, String[] args, IcyHotManager pluginManager) {
 		super(sender, command, args, pluginManager);
 	}
 

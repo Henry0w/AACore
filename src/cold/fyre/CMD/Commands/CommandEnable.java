@@ -7,12 +7,12 @@ import org.bukkit.plugin.Plugin;
 import cold.fyre.API.PermissionChecker;
 import cold.fyre.CMD.CommandManagerHandler;
 import cold.fyre.Events.AAEnable;
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 import cold.fyre.Usage.Perms;
 
 public class CommandEnable extends CommandManagerHandler {
 
-	public CommandEnable(CommandSender sender, Command command, String[] args, Manager pluginManager) {
+	public CommandEnable(CommandSender sender, Command command, String[] args, IcyHotManager pluginManager) {
 		super(sender, command, args, pluginManager);
 	}
 	

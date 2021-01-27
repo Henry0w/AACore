@@ -15,8 +15,20 @@ import org.bukkit.scheduler.BukkitTask;
 
 import cold.fyre.API.Events.SignInputEvent;
 import cold.fyre.API.Packets.AbstractPacketManager;
-import cold.fyre.API.Packets.Packet;
-import cold.fyre.Usage.Manager;
+import cold.fyre.API.Packets.PacketHandler;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutKickDisconnect;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutOpenSignEditor;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutPlayerListHeaderFooter;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutTitle;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutTitle.EnumTitleAction;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutUpdateTime;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder.EnumWorldBorderAction;
+import cold.fyre.API.Packets.minecraft.PacketSender;
+import cold.fyre.API.Packets.minecraft.support.BlockPosition;
+import cold.fyre.API.Packets.minecraft.support.ChatMessage;
+import cold.fyre.API.Packets.minecraft.support.WorldBorder;
+import cold.fyre.Usage.IcyHotManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -34,62 +46,35 @@ import io.netty.channel.ChannelPromise;
  */
 public class PacketManager extends AbstractPacketManager {
 
-	public PacketManager(Server server, ServerVersion version, Manager coldfyre) {
+	public PacketManager(Server server, ServerVersion version, IcyHotManager coldfyre) {
 		super(server, version, coldfyre);
 	}
 
 	@Override
 	public void sendTitle(Player player, String message, int fadeIn, int showTime, int fadeOut) {
-		try {
-			Enum<?> enumTitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "TITLE");
-			String chatComponent = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message.replace('&', '§')));
-			Packet title = new Packet("PacketPlayOutTitle", enumTitleAction, chatComponent, fadeIn * 4, showTime * 4, fadeOut * 4);
-
-			title.sendPacket(player);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			e.printStackTrace();
-		}
+		PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, new ChatMessage(formatJSON(message)), fadeIn, showTime, fadeOut);
+		PacketSender.sendPacket(player, title);
 	}
 
 	@Override
 	public void sendSubtitle(Player player, String title, String subtitle, int fadeIn, int showTime, int fadeOut) {
-		try {
-			Enum<?> enumTitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "TITLE");
-			Enum<?> enumSubtitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "SUBTITLE");
-			String chatComponentTitle = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(title.replace('&', '§')));
-			String chatComponentSub = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(subtitle.replace('&', '§')));
-			Packet main = new Packet("PacketPlayOutTitle", enumTitleAction, chatComponentTitle, fadeIn * 4, showTime * 4, fadeOut * 4);
-			Packet sub = new Packet("PacketPlayOutTitle", enumSubtitleAction, chatComponentSub, fadeIn * 4, showTime * 4, fadeOut * 4);
-
-			main.sendPacket(player);
-			sub.sendPacket(player);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			e.printStackTrace();
-		}
+		PacketPlayOutTitle main = new PacketPlayOutTitle(EnumTitleAction.TITLE, new ChatMessage(formatJSON(title)), fadeIn, showTime, fadeOut);
+		PacketPlayOutTitle sub = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, new ChatMessage(formatJSON(subtitle)), fadeIn, showTime, fadeOut);
+		PacketSender.sendPacket(player, main);
+		PacketSender.sendPacket(player, sub);
 	}
 
 	@Override
 	public void sendActionbar(Player player, String message) {
-		try {
-			Enum<?> enumTitleAction = Packet.getEnum("PacketPlayOutTitle$EnumTitleAction", "ACTIONBAR");
-			String chatComponent = (String) Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message.replace('&', '§')));
-			Packet bar = new Packet("PacketPlayOutTitle", enumTitleAction, chatComponent, 8, 2, 8);
-
-			bar.sendPacket(player);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			e.printStackTrace();
-		}
+		PacketPlayOutTitle bar = new PacketPlayOutTitle(EnumTitleAction.ACTIONBAR, new ChatMessage(formatJSON(message)));
+		PacketSender.sendPacket(player, bar);
 	}
 
 	@Override
 	public Entity editNBTTag(Entity entity, String tag, Object value) {
 		try {
 			Object craftEntity = entity.getClass().getMethod("getHandle").invoke(entity);
-			Packet ent = new Packet(craftEntity, "Entity");
-			ent.runMethod("c", setTag(new Packet("NBTTagCompound").getPacket(), tag, value));
+			craftEntity.getClass().getMethod("c", PacketHandler.getClass("NBTTagCompound")).invoke(craftEntity, setTag(new PacketHandler("NBTTagCompound"), tag, value));
 			return (Entity) craftEntity;
 			
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
@@ -103,11 +88,10 @@ public class PacketManager extends AbstractPacketManager {
 	public ItemStack editNBTTag(ItemStack itemStack, String tag, Object value) {
 		try {
 			Object craftItem = itemStack.getClass().getMethod("getHandle").invoke(itemStack);
-			Packet craftItemPacket = new Packet(craftItem, "CraftItem");
-			Object nbt = craftItemPacket.runMethod("getTag") != null ? setTag(craftItemPacket.runMethod("getTag"), tag, value) : setTag(new Packet("NBTTagCompund").getPacket(), tag, value);
+			Object nbt = craftItem.getClass().getMethod("getTag").invoke(craftItem) != null ? setTag(craftItem.getClass().getMethod("getTag").invoke(craftItem), tag, value) : setTag(new PacketHandler("NBTTagCompund").getPacket(), tag, value);
 			
-			craftItemPacket.runMethod("setTag", nbt);
-			return (ItemStack) craftItemPacket.runMethod("asBukkitCopy", craftItemPacket.getPacket());
+			craftItem.getClass().getMethod("setTag", nbt.getClass()).invoke(craftItem, nbt);
+			return (ItemStack) craftItem.getClass().getMethod("asBukkitCopy").invoke(craftItem);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {
 			e.printStackTrace();
@@ -118,8 +102,8 @@ public class PacketManager extends AbstractPacketManager {
 	@Override
 	public Block editNBTTag(Block block, String tag, Object value) {
 		try {
-			Object tileEntity = block.getClass().cast(new Packet("TileEntity").getPacket());
-			tileEntity.getClass().getMethod("save", new Packet("NBTTagCompound").getPacket().getClass()).invoke(tileEntity, setTag(new Packet("NBTTagCompound").getPacket(), tag, value));
+			Object tileEntity = block.getClass().cast(PacketHandler.getClass("TileEntity"));
+			tileEntity.getClass().getMethod("save", new PacketHandler("NBTTagCompound").getPacket().getClass()).invoke(tileEntity, setTag(new PacketHandler("NBTTagCompound").getPacket(), tag, value));
 			return (Block) tileEntity;
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {
@@ -129,50 +113,53 @@ public class PacketManager extends AbstractPacketManager {
 	}
 	
 	private Object setTag(Object nbtPacket, String tag, Object value) {
-		Packet enclose = new Packet(nbtPacket, "NBTTagCompund");
+		Object enclose = nbtPacket;
 		
-		if (value instanceof Integer)
-			enclose.runMethod("setInt", tag, (int) value);
-        else if (value instanceof Double)
-        	enclose.runMethod("setDouble", tag, (double) value);
-        else if (value instanceof Float)
-        	enclose.runMethod("setFloat", tag, (float) value);
-        else if (value instanceof Long)
-        	enclose.runMethod("setLong", tag, (long) value);
-        else if (value instanceof String)
-        	enclose.runMethod("setString", tag, String.valueOf(value));
-        else if (value instanceof Short)
-        	enclose.runMethod("setShort", tag, (short) value);
-        else if (value instanceof Boolean)
-        	enclose.runMethod("setBoolean", tag, (boolean) value);
-        else if (value instanceof Byte)
-        	enclose.runMethod("setByte", tag, (byte) value);
-        else if (value instanceof byte[])
-        	enclose.runMethod("setByteArray", tag, (byte[]) value);
-        else if (value instanceof int[])
-        	enclose.runMethod("setIntArray", tag, (int[]) value);
-        else if (value.getClass().isInstance(new Packet("NBTBase").getPacket()))
-        	enclose.runMethod("set", tag, value.getClass().cast(new Packet("NBTBase").getPacket()));
-		
-		return enclose.getPacket();
+		try {
+			if (value instanceof Integer)
+				enclose.getClass().getMethod("setInt", tag.getClass(), value.getClass()).invoke(enclose, tag, (int) value);
+	        else if (value instanceof Double)
+	        	enclose.getClass().getMethod("setDouble", tag.getClass(), value.getClass()).invoke(enclose, tag, (double) value);
+	        else if (value instanceof Float)
+	        	enclose.getClass().getMethod("setFloat", tag.getClass(), value.getClass()).invoke(enclose, tag, (float) value);
+	        else if (value instanceof Long)
+	        	enclose.getClass().getMethod("setLong", tag.getClass(), value.getClass()).invoke(enclose, tag, (long) value);
+	        else if (value instanceof String)
+	        	enclose.getClass().getMethod("setString", tag.getClass(), String.class).invoke(enclose, tag, String.valueOf(value));
+	        else if (value instanceof Short)
+	        	enclose.getClass().getMethod("setShort", tag.getClass(), value.getClass()).invoke(enclose, tag, (short) value);
+	        else if (value instanceof Boolean)
+	        	enclose.getClass().getMethod("setBoolean", tag.getClass(), value.getClass()).invoke(enclose, tag, (boolean) value);
+	        else if (value instanceof Byte)
+	        	enclose.getClass().getMethod("setByte", tag.getClass(), value.getClass()).invoke(enclose, tag, (byte) value);
+	        else if (value instanceof byte[])
+	        	enclose.getClass().getMethod("setByteArray", tag.getClass(), value.getClass()).invoke(enclose, tag, (byte[]) value);
+	        else if (value instanceof int[])
+	        	enclose.getClass().getMethod("setIntArray", tag.getClass(), value.getClass()).invoke(enclose, tag, (int[]) value);
+	        else if (value.getClass().isInstance(PacketHandler.getClass("NBTBase")))
+	        	enclose.getClass().getMethod("set", tag.getClass(), value.getClass()).invoke(enclose, tag, value.getClass().cast(PacketHandler.getClass("NBTBase")));
+			
+			return enclose;
+		} catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
+			e.printStackTrace();
+			return nbtPacket;
+		}
 	}
 
 	@Override
 	public BukkitTask createTablist(Plugin plugin, String header, String footer) {
 		return new BukkitRunnable() {
+			protected PacketPlayOutPlayerListHeaderFooter list = new PacketPlayOutPlayerListHeaderFooter(new ChatMessage(header), new ChatMessage(footer));
 			
 			@Override
 			public void run() {
-				Packet list = new Packet("PacketPlayOutListHeaderFooter");
 				
-				list.setFieldValue("header", new Packet("ChatComponentText", header).getPacket());
-				list.setFieldValue("footer", new Packet("ChatComponentText", footer).getPacket());
 				
 				if(getServer().getOnlinePlayers().size() == 0)
 					return;
 				
 				for(Player player : getServer().getOnlinePlayers())
-					list.sendPacket(player);
+					PacketSender.sendPacket(player, list);
 			}
 			
 		}.runTaskTimer(plugin, 0L, 20L);
@@ -185,24 +172,24 @@ public class PacketManager extends AbstractPacketManager {
 			private int fCounter = 0;
 			private String[] storeHeader = header;
 			private String[] storeFooter = footer;
+			PacketPlayOutPlayerListHeaderFooter list = new PacketPlayOutPlayerListHeaderFooter(new ChatMessage(header[0]), new ChatMessage(footer[0]));
 			
 			@Override
 			public void run() {
-				Packet list = new Packet("PacketPlayOutListHeaderFooter");
 				
 				if(hCounter == storeHeader.length) {
 					hCounter = 0;
-					list.setFieldValue("header", new Packet("ChatComponentText", storeHeader[0]).getPacket());
+					list.setHeader(new ChatMessage(header[0]));
 				} else {
-					list.setFieldValue("header", new Packet("ChatComponentText", storeHeader[hCounter]).getPacket());
+					list.setHeader(new ChatMessage(header[hCounter]));
 					hCounter++;
 				}
 				
 				if(fCounter == storeFooter.length) {
 					fCounter = 0;
-					list.setFieldValue("header", new Packet("ChatComponentText", storeFooter[0]).getPacket());
+					list.setFooter(new ChatMessage(footer[0]));
 				} else {
-					list.setFieldValue("header", new Packet("ChatComponentText", storeFooter[fCounter]).getPacket());
+					list.setFooter(new ChatMessage(footer[fCounter]));
 					fCounter++;
 				}
 				
@@ -210,7 +197,7 @@ public class PacketManager extends AbstractPacketManager {
 					return;
 				
 				for(Player player : getServer().getOnlinePlayers())
-					list.sendPacket(player);
+					PacketSender.sendPacket(player, list);
 			}
 			
 		}.runTaskTimer(plugin, 0L, (long)(seconds * 20));
@@ -218,38 +205,25 @@ public class PacketManager extends AbstractPacketManager {
 
 	@Override
 	public void sendKickMessage(Player player, String message) {
-		try {
-			Object mutable = Packet.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, formatJSON(message));
-			Packet kick = new Packet("PacketPlayOutKickDisconnect", mutable);
-			kick.sendPacket(player);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			e.printStackTrace();
-		}
+		PacketPlayOutKickDisconnect kick = new PacketPlayOutKickDisconnect(message);
+		PacketSender.sendPacket(player, kick);
 	}
 
 	@Override
 	public void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime) {
-		Packet worldBorder = new Packet("WorldBorder");
-		worldBorder.runMethod("setCenter", xCenter, zCenter);
-		worldBorder.runMethod("setDamage", damage);
-		worldBorder.runMethod("setDamageBuffer", damageBuffer);
-		worldBorder.runMethod("setSize", size);
-		worldBorder.runMethod("setWarningDistance", warnDistance);
-		worldBorder.runMethod("setWarningTime", warnTime);
-		
-		try {
-			Object handle = player.getClass().getMethod("getHandle").invoke(player);
-			worldBorder.setFieldValue("world", handle.getClass().getMethod("getWorldServer").invoke(handle));
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			e.printStackTrace();
-		}
-		
-		Enum<?> init = Packet.getEnum("PacketPlayOutWorldBorder$EnumWorldBorderAction", "INITIALIZE");
-		Packet world = new Packet("PacketPlayOutWorldBorder", worldBorder.getPacket(), init);
-		
-		world.sendPacket(player);
+		setPlayersWorldBorder(player, new WorldBorder(xCenter, zCenter, damage, damageBuffer, size, warnDistance, warnTime));
+	}
+	
+	@Override
+	public void setPlayersWorldBorder(Player player, WorldBorder border) {
+		PacketPlayOutWorldBorder world = new PacketPlayOutWorldBorder(border, EnumWorldBorderAction.INITIALIZE);
+		PacketSender.sendPacket(player, world);
+	}
+	
+	@Override
+	public void setTime(Player player, long worldAge, long time) {
+		PacketPlayOutUpdateTime update = new PacketPlayOutUpdateTime(worldAge, time, true);
+		PacketSender.sendPacket(player, update);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -257,33 +231,33 @@ public class PacketManager extends AbstractPacketManager {
 	public void sendSign(Player player, Sign sign) {
 		i(player, sign);
 		
+		PacketPlayOutOpenSignEditor signEditor = new PacketPlayOutOpenSignEditor();
+		Block signBlock;
+		
+		if(sign == null) {
+			signBlock = player.getLocation().getChunk().getBlock(0, 0, 0);
+			
+			if(signBlock.getType() != Material.LEGACY_SIGN_POST) {
+				signBlock.setType(Material.LEGACY_SIGN_POST);
+				signBlock.getState().update();
+			}
+			
+		} else
+			signBlock = sign.getBlock();
+		
+		BlockPosition position = new BlockPosition(signBlock.getX(), signBlock.getY(), signBlock.getZ());
+		signEditor.setBlockPosition(position);
+		
 		try {
 			Object handle = player.getClass().getMethod("getHandle").invoke(player);
-			Block signBlock;
-			
-			if(sign == null) {
-				signBlock = player.getLocation().getChunk().getBlock(0, 0, 0);
-				
-				if(signBlock.getType() != Material.LEGACY_SIGN_POST) {
-					signBlock.setType(Material.LEGACY_SIGN_POST);
-					signBlock.getState().update();
-				}
-				
-			} else
-				signBlock = sign.getBlock();
-			
-			Packet blockPosition = new Packet("BlockPosition", signBlock.getX(), signBlock.getY(), signBlock.getZ());
+			PacketHandler blockP = new PacketHandler("BlockPosition", position.getX(), position.getY(), position.getZ());
 			Object craftWorld = handle.getClass().getField("world").get(handle);
-			Object tesWorld = craftWorld.getClass().getMethod("getTileEntity", blockPosition.getPacket().getClass()).invoke(craftWorld, blockPosition.getPacket());
-			Packet tesCast = new Packet("tileEntitySign");
+			Object tesWorld = craftWorld.getClass().getMethod("getTileEntity", blockP.getPacket().getClass()).invoke(craftWorld, blockP);
+			PacketHandler tesCast = new PacketHandler("TileEntitySign");
 			Object tes = tesWorld.getClass().cast(tesCast.getPacket());
+			tes.getClass().getField("isEditable").set(tes, true);
 			
-			Packet tileEntitySign = new Packet(tes, "TileEntitySign");
-			tileEntitySign.setFieldValue("isEditable", true);
-			tileEntitySign.runMethod("a", handle);
-			
-			Packet toSend = new Packet("PacketPlayOpenSignEditor", blockPosition.getPacket());
-			toSend.sendPacket(player);
+			PacketSender.sendPacket(player, signEditor);
 			
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
 			e.printStackTrace();
@@ -312,7 +286,7 @@ public class PacketManager extends AbstractPacketManager {
 	protected void i(Player player, Sign sign) {
 		try {
 			Object craftPlayer = player.getClass().getMethod("getHandle").invoke(player);
-			Object packetObject = new Packet("PacketPlayInUpdateSign").getPacket();
+			Object packetObject = new PacketHandler("PacketPlayInUpdateSign").getPacket();
 			PacketManager pm = this;
 			
 			ChannelDuplexHandler cdh = new ChannelDuplexHandler() {

@@ -12,11 +12,11 @@ import cold.fyre.API.Packets.AbstractPacketManager.ServerVersion;
 import cold.fyre.CMD.CommandHandler;
 import cold.fyre.Events.DeveloperMessage;
 
-public class Manager extends PluginManager<IcyHot> {
+public class IcyHotManager extends PluginManager<IcyHot> {
 	
 	private PacketManager pm = null;
 
-	public Manager(IcyHot plugin) {
+	public IcyHotManager(IcyHot plugin) {
 		super(plugin);
 	}
 	

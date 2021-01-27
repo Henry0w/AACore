@@ -5,16 +5,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 
 public class AADisable extends Event implements Cancellable {
 	
 	private boolean cancel = false;
 	@SuppressWarnings("unused")
-	private Manager Manager;
+	private IcyHotManager Manager;
 	private Plugin plugin;
 	
-	public AADisable(Manager manager, Plugin plugin) {
+	public AADisable(IcyHotManager manager, Plugin plugin) {
 		this.plugin = plugin;
 		this.Manager = manager;
 	}

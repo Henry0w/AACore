@@ -11,13 +11,13 @@ import cold.fyre.CMD.Commands.CommandEnable;
 import cold.fyre.CMD.Commands.CommandHelp;
 import cold.fyre.CMD.Commands.CommandList;
 import cold.fyre.CMD.Commands.CommandVersion;
-import cold.fyre.Usage.Manager;
+import cold.fyre.Usage.IcyHotManager;
 
 public class CommandHandler implements CommandExecutor {
 	
-	private Manager manager;
+	private IcyHotManager manager;
 	
-	public CommandHandler(Manager manager) {
+	public CommandHandler(IcyHotManager manager) {
 		this.manager = manager;
 		manager.getPlugin().getCommand("AACore").setExecutor(this);
 	}
