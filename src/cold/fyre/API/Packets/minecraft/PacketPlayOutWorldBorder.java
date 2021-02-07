@@ -24,8 +24,19 @@ public class PacketPlayOutWorldBorder extends Packet {
 		WorldBorder.runMethod("setWarningTime", border.getWarningTime());
 		WorldBorder.runMethod("setWarningDistance", border.getWarningDistance());
 		
-		PacketHandler ppowb = new PacketHandler(getPacketName(), WorldBorder.getPacket(), PacketHandler.getEnum(getPacketName() + "$EnumWorldBorderAction", action.name()));
-		return ppowb.getPacket();
+		//PacketHandler ppowb = new PacketHandler(getPacketName(), WorldBorder.getPacket(), PacketHandler.getEnum(getPacketName() + "$EnumWorldBorderAction", action.name()));
+			PacketHandler ppowb = new PacketHandler(getPacketName());
+			ppowb.setFieldValue("a", PacketHandler.getEnum(getPacketName() + "$EnumWorldBorderAction", action.name()));
+			ppowb.setFieldValue("c", (double) WorldBorder.runMethod("getCenterX"));
+			ppowb.setFieldValue("d", (double) WorldBorder.runMethod("getCenterZ"));
+			ppowb.setFieldValue("f", (double) WorldBorder.runMethod("getSize"));
+			ppowb.setFieldValue("i", (int) WorldBorder.runMethod("getWarningDistance"));
+			ppowb.setFieldValue("h", (int) WorldBorder.runMethod("getWarningTime"));
+			ppowb.setFieldValue("e", (double) WorldBorder.runMethod("k"));
+			ppowb.setFieldValue("g", (long) WorldBorder.runMethod("j"));
+			ppowb.setFieldValue("b", (int) WorldBorder.runMethod("m"));
+
+			return ppowb.getPacket();
 	}
 	
 	public enum EnumWorldBorderAction {

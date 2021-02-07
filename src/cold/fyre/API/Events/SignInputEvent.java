@@ -30,7 +30,7 @@ public class SignInputEvent extends Event implements Cancellable {
 		this.lines = lines;
 		this.player = player;
 		this.sign = sign;
-		manager.r(player);
+		//manager.r(player);
 	}
 	
 	public Player getPlayer() { return player; }

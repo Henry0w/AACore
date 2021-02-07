@@ -5,7 +5,7 @@ import cold.fyre.API.Packets.PacketHandler;
 public class PacketPlayOutUpdateTime extends Packet {
 	
 	private long worldAge, timeOfDay;
-	private boolean flag;
+//	private boolean flag;
 	
 	public PacketPlayOutUpdateTime() { super("PacketPlayOutUpdateTime"); }
 	
@@ -13,7 +13,7 @@ public class PacketPlayOutUpdateTime extends Packet {
 		super("PacketPlayOutUpdateTime");
 		this.timeOfDay = timeOfDay;
 		this.worldAge = worldAge;
-		this.flag = flag;
+//		this.flag = flag;
 		
 		if(!flag) {
 			this.timeOfDay = -timeOfDay;
@@ -29,7 +29,11 @@ public class PacketPlayOutUpdateTime extends Packet {
 
 	@Override
 	public Object getPacket() {
-		PacketHandler ppout = new PacketHandler(getPacketName(), worldAge, timeOfDay, flag);
+		//PacketHandler ppout = new PacketHandler(getPacketName(), worldAge, timeOfDay, flag);
+		PacketHandler ppout = new PacketHandler(getPacketName());
+		ppout.setFieldValue("a", worldAge);
+		ppout.setFieldValue("b", timeOfDay);
+		
 		return ppout.getPacket();
 	}
 
