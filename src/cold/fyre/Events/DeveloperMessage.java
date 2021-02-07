@@ -38,7 +38,7 @@ public class DeveloperMessage implements Listener {
 			
 			player.sendMessage("§6Plugins:");
 			for(Plugin p : manager.getPlugin().getServer().getPluginManager().getPlugins()) {
-				if(p.getDescription().getAuthors().contains("Sommod"))
+				if(p.getDescription().getAuthors().contains("Sommod") || p.getDescription().getAuthors().contains("Armeriness"))
 					player.sendMessage("§e" + p.getName() + " §7[§a" + p.getDescription().getVersion() + "§7]");
 			}
 			
