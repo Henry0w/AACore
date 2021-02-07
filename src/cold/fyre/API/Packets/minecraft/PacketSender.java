@@ -17,7 +17,7 @@ public abstract class PacketSender {
 			Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
 			Object networkManager = playerConnection.getClass().getField("networkManager").get(playerConnection);
 			
-			Class<?> nmsPacketClass = Class.forName("net.mincraft.server." + packet.getPacketVersion() + ".Packet");
+			Class<?> nmsPacketClass = Class.forName("net.minecraft.server." + packet.getPacketVersion() + ".Packet");
 			networkManager.getClass().getMethod("sendPacket", nmsPacketClass).invoke(networkManager, nmsPacket);
 			PacketEvent pe = new PacketEvent(packet, player);
 			Bukkit.getServer().getPluginManager().callEvent(pe);
