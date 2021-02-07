@@ -26,7 +26,11 @@ public class PacketHandler implements AAPacket {
 				Class<?> mainClass = Class.forName(packetLocation.split("$")[0]);
 				Class<?> subClass = Class.forName(packetLocation);
 				Object mainObject = mainClass.newInstance();
-				packet = subClass.getDeclaredConstructor(getAllParameters(mainClass, convertToClass(parameters))).newInstance(mainObject, parameters);
+				
+				if(parameters.length != 0)
+					packet = subClass.getDeclaredConstructor(getAllParameters(mainClass, convertToClass(parameters))).newInstance(getAllObjects(mainObject, parameters));
+				else
+					packet = subClass.getDeclaredConstructor(mainClass).newInstance(mainObject);
 			} else {
 				Class<?> packetClass = Class.forName(packetLocation);
 				packet = packetClass.getDeclaredConstructor(convertToClass(parameters)).newInstance(parameters);
@@ -39,6 +43,9 @@ public class PacketHandler implements AAPacket {
 	
 	private Class<?>[] convertToClass(Object... parameters) {
 		
+		if(parameters.length == 0)
+			return new Class<?>[0];
+		
 		Class<?>[] collect = new Class<?>[parameters.length];
 		
 		for(int i = 0; i < parameters.length; i++)
@@ -50,6 +57,22 @@ public class PacketHandler implements AAPacket {
 	private Class<?>[] getAllParameters(Class<?> mainClass, Class<?>[] parameters) {
 		Class<?>[] collect = new Class<?>[parameters.length + 1];
 		collect[0] = mainClass;
+		
+		if(parameters.length == 0)
+			return collect;
+		
+		for(int i = 0; i < parameters.length; i++)
+			collect[i + 1] = parameters[i];
+		
+		return collect;
+	}
+	
+	private Object[] getAllObjects(Object mainObject, Object... parameters) {
+		Object[] collect = new Object[parameters.length + 1];
+		collect[0] = mainObject;
+		
+		if(parameters.length == 0)
+			return collect;
 		
 		for(int i = 0; i < parameters.length; i++)
 			collect[i + 1] = parameters[i];

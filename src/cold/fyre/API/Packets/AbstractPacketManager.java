@@ -1,15 +1,15 @@
 package cold.fyre.API.Packets;
 
 import org.bukkit.Server;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Entity;
+//import org.bukkit.block.Block;
+//import org.bukkit.block.Sign;
+//import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+//import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import cold.fyre.API.Packets.minecraft.support.WorldBorder;
+//import cold.fyre.API.Packets.minecraft.support.WorldBorder;
 import cold.fyre.Usage.IcyHotManager;
 
 /**
@@ -178,7 +178,7 @@ public abstract class AbstractPacketManager {
 	 * @param tag - Tag to edit
 	 * @param value - Value to set tag to.
 	 */
-	public abstract Entity editNBTTag(Entity entity, String tag, Object value);
+	//public abstract Entity editNBTTag(Entity entity, String tag, Object value);
 	
 	/**
 	 * Versions: 1.16.1+<br>
@@ -189,7 +189,7 @@ public abstract class AbstractPacketManager {
 	 * @param tag - tag to edit
 	 * @param value - Value to set tag to.
 	 */
-	public abstract ItemStack editNBTTag(ItemStack itemStack, String tag, Object value);
+	//public abstract ItemStack editNBTTag(ItemStack itemStack, String tag, Object value);
 	
 	/**
 	 * Versions: 1.16.1+<br>
@@ -200,7 +200,7 @@ public abstract class AbstractPacketManager {
 	 * @param tag - tag to edit
 	 * @param value - Value to set tag to.
 	 */
-	public abstract Block editNBTTag(Block block, String tag, Object value);
+	//public abstract Block editNBTTag(Block block, String tag, Object value);
 	
 	/**
 	 * Creates a tablist that will be sent to all players. Note that this
@@ -271,7 +271,7 @@ public abstract class AbstractPacketManager {
 	 * @param warnDistance - Warning distance to world border (in blocks)
 	 * @param warnTime - Warning time to world border
 	 */
-	public abstract void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime);
+	//public abstract void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime);
 	
 	/**
 	 * Sets a worldBorder to the specific player. This acts like a the real WorldBorder,
@@ -285,7 +285,7 @@ public abstract class AbstractPacketManager {
 	 * @param player - Player to affect.
 	 * @param border - WorldBorder to place on player
 	 * */
-	public abstract void setPlayersWorldBorder(Player player, WorldBorder border);
+	//public abstract void setPlayersWorldBorder(Player player, WorldBorder border);
 	
 	/**
 	 * This sends a Edit Sign to the player where they can input like
@@ -296,7 +296,7 @@ public abstract class AbstractPacketManager {
 	 * Versions: 1.16.1+
 	 * @param player - Player to send sign.
 	 */
-	public abstract void sendSign(Player player, Sign sign);
+	//public abstract void sendSign(Player player, Sign sign);
 	
 	/**
 	 * Sets the current world time for the given player. If you want to set the time
@@ -306,7 +306,7 @@ public abstract class AbstractPacketManager {
 	 * @param player
 	 * @param time
 	 */
-	public abstract void setTime(Player player, long worldAge, long time);
+	//public abstract void setTime(Player player, long worldAge, long time);
 	
 	/**
 	 * <b>Warning:</b> This is not a method to be used. This is ONLY
@@ -317,8 +317,8 @@ public abstract class AbstractPacketManager {
 	 * safe.<br><br>
 	 * Versions: 1.16.1+
 	 */
-	@Deprecated
-	public abstract void r(Player player);
+	//@Deprecated
+	//public abstract void r(Player player);
 	
 	/**
 	 * <b>Warning:</b> This is not a method to be used. This is ONLY
@@ -329,8 +329,8 @@ public abstract class AbstractPacketManager {
 	 * safe.<br><br>
 	 * Versions: 1.16.1+
 	 */
-	@Deprecated
-	protected abstract void i(Player player, Sign sign);
+	//@Deprecated
+	//protected abstract void i(Player player, Sign sign);
 
 
 }
