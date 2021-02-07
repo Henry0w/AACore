@@ -33,9 +33,17 @@ public class PacketPlayOutTitle extends Packet {
 	
 	public void setFadeOut(int fadeOut) { this.fadeOut = fadeOut; }
 	
+	public void setMessage(String message) { this.message = new ChatMessage(message); }
+	
 	@Override
 	public Object getPacket() {
-		PacketHandler ppot = new PacketHandler(getPacketName(), Converter.convertChatMessage(message), PacketHandler.getEnum("PacketPlayOutTitle", action.name()), fadeIn, showTime, fadeOut);
+		//PacketHandler ppot = new PacketHandler(getPacketName(), PacketHandler.getEnum("PacketPlayOutTitle$EnumTitleAction", action.name()), Converter.convertChatMessage(message), fadeIn, showTime, fadeOut);
+		PacketHandler ppot = new PacketHandler(getPacketName());
+		ppot.setFieldValue("a", PacketHandler.getEnum("PacketPlayOutTitle$EnumTitleAction", action.name()));
+		ppot.setFieldValue("b", Converter.convertChatMessage(message));
+		ppot.setFieldValue("c", fadeIn);
+		ppot.setFieldValue("d", showTime);
+		ppot.setFieldValue("e", fadeOut);
 		return ppot.getPacket();
 	}
 	

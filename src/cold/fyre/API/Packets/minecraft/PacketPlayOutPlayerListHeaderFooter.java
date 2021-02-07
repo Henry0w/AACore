@@ -23,8 +23,8 @@ public class PacketPlayOutPlayerListHeaderFooter extends Packet {
 	@Override
 	public Object getPacket() {
 		PacketHandler ppoplhf = new PacketHandler(getPacketName());
-		ppoplhf.setFieldValue("a", Converter.convertChatMessage(header));
-		ppoplhf.setFieldValue("b", Converter.convertChatMessage(footer));
+		ppoplhf.setFieldValue("header", Converter.convertChatMessage(header));
+		ppoplhf.setFieldValue("footer", Converter.convertChatMessage(footer));
 		return ppoplhf.getPacket();
 	}
 

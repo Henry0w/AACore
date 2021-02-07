@@ -1,8 +1,8 @@
 package cold.fyre.API.Packets.minecraft;
 
-import java.lang.reflect.InvocationTargetException;
-
+import cold.fyre.API.Packets.Converter;
 import cold.fyre.API.Packets.PacketHandler;
+import cold.fyre.API.Packets.minecraft.support.ChatMessage;
 
 public class PacketPlayOutKickDisconnect extends Packet {
 	
@@ -82,11 +82,12 @@ public class PacketPlayOutKickDisconnect extends Packet {
 	@Override
 	public Object getPacket() {
 		try {
-			Object ICBC = PacketHandler.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, format ? formatJson(convertToSingleLine()) : convertToSingleLine());
-			PacketHandler ppokd = new PacketHandler("PacketPlayOutKickDisconnect", ICBC);
+			//Object ICBC = PacketHandler.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, format ? formatJson(convertToSingleLine()) : convertToSingleLine());
+			ChatMessage ICBC = new ChatMessage(format ? formatJson(convertToSingleLine()) : convertToSingleLine());
+			PacketHandler ppokd = new PacketHandler("PacketPlayOutKickDisconnect");
+			ppokd.setFieldValue("a", Converter.convertChatMessage(ICBC));
 			return ppokd.getPacket();
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
+		} catch (IllegalArgumentException | SecurityException e) {
 			e.printStackTrace();
 			return null;
 		}
