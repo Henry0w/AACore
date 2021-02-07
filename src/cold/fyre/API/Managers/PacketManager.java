@@ -1,39 +1,39 @@
 package cold.fyre.API.Managers;
 
-import java.lang.reflect.InvocationTargetException;
+//import java.lang.reflect.InvocationTargetException;
 
-import org.bukkit.Material;
+//import org.bukkit.Material;
 import org.bukkit.Server;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Entity;
+//import org.bukkit.block.Block;
+//import org.bukkit.block.Sign;
+//import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+//import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import cold.fyre.API.Events.SignInputEvent;
+//import cold.fyre.API.Events.SignInputEvent;
 import cold.fyre.API.Packets.AbstractPacketManager;
-import cold.fyre.API.Packets.PacketHandler;
+//import cold.fyre.API.Packets.PacketHandler;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutKickDisconnect;
-import cold.fyre.API.Packets.minecraft.PacketPlayOutOpenSignEditor;
+//import cold.fyre.API.Packets.minecraft.PacketPlayOutOpenSignEditor;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutPlayerListHeaderFooter;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutTitle;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutTitle.EnumTitleAction;
-import cold.fyre.API.Packets.minecraft.PacketPlayOutUpdateTime;
-import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder;
-import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder.EnumWorldBorderAction;
+//import cold.fyre.API.Packets.minecraft.PacketPlayOutUpdateTime;
+//import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder;
+//import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder.EnumWorldBorderAction;
 import cold.fyre.API.Packets.minecraft.PacketSender;
-import cold.fyre.API.Packets.minecraft.support.BlockPosition;
+//import cold.fyre.API.Packets.minecraft.support.BlockPosition;
 import cold.fyre.API.Packets.minecraft.support.ChatMessage;
-import cold.fyre.API.Packets.minecraft.support.WorldBorder;
+//import cold.fyre.API.Packets.minecraft.support.WorldBorder;
 import cold.fyre.Usage.IcyHotManager;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelDuplexHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.ChannelPromise;
+//import io.netty.channel.Channel;
+//import io.netty.channel.ChannelDuplexHandler;
+//import io.netty.channel.ChannelHandlerContext;
+//import io.netty.channel.ChannelPipeline;
+//import io.netty.channel.ChannelPromise;
 
 /**
  * This contains default methods that are commonly used for handling certain
@@ -52,24 +52,25 @@ public class PacketManager extends AbstractPacketManager {
 
 	@Override
 	public void sendTitle(Player player, String message, int fadeIn, int showTime, int fadeOut) {
-		PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, new ChatMessage(formatJSON(message)), fadeIn, showTime, fadeOut);
+		PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, new ChatMessage(message), fadeIn, showTime, fadeOut);
 		PacketSender.sendPacket(player, title);
 	}
 
 	@Override
 	public void sendSubtitle(Player player, String title, String subtitle, int fadeIn, int showTime, int fadeOut) {
-		PacketPlayOutTitle main = new PacketPlayOutTitle(EnumTitleAction.TITLE, new ChatMessage(formatJSON(title)), fadeIn, showTime, fadeOut);
-		PacketPlayOutTitle sub = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, new ChatMessage(formatJSON(subtitle)), fadeIn, showTime, fadeOut);
+		PacketPlayOutTitle main = new PacketPlayOutTitle(EnumTitleAction.TITLE, new ChatMessage(title), fadeIn, showTime, fadeOut);
+		PacketPlayOutTitle sub = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, new ChatMessage(subtitle), fadeIn, showTime, fadeOut);
 		PacketSender.sendPacket(player, main);
 		PacketSender.sendPacket(player, sub);
 	}
 
 	@Override
 	public void sendActionbar(Player player, String message) {
-		PacketPlayOutTitle bar = new PacketPlayOutTitle(EnumTitleAction.ACTIONBAR, new ChatMessage(formatJSON(message)));
+		PacketPlayOutTitle bar = new PacketPlayOutTitle(EnumTitleAction.ACTIONBAR, new ChatMessage(message));
 		PacketSender.sendPacket(player, bar);
 	}
 
+	/*
 	@Override
 	public Entity editNBTTag(Entity entity, String tag, Object value) {
 		try {
@@ -145,6 +146,7 @@ public class PacketManager extends AbstractPacketManager {
 			return nbtPacket;
 		}
 	}
+	*/
 
 	@Override
 	public BukkitTask createTablist(Plugin plugin, String header, String footer) {
@@ -209,6 +211,7 @@ public class PacketManager extends AbstractPacketManager {
 		PacketSender.sendPacket(player, kick);
 	}
 
+	/*
 	@Override
 	public void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime) {
 		setPlayersWorldBorder(player, new WorldBorder(xCenter, zCenter, damage, damageBuffer, size, warnDistance, warnTime));
@@ -316,5 +319,6 @@ public class PacketManager extends AbstractPacketManager {
 			e.printStackTrace();
 		}
 	}
+	*/
 
 }
