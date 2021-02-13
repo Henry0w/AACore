@@ -117,7 +117,14 @@ public class FileManager {
 			folder = new File(getPluginsFolder(), "Error Logs");
 		
 		File toLog = new File(folder, getDate() + ".txt");
-		NotNull(toLog);
+		
+		try {
+			toLog.createNewFile();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
+		//NotNull(toLog);
 		toLog.setWritable(true);
 		
 		try {
@@ -151,7 +158,14 @@ public class FileManager {
 			folder.mkdir();
 			
 			File toLog = new File(folder, getDate() + ".txt");
-			NotNull(toLog);
+			
+			try {
+				toLog.createNewFile();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+			
+			//NotNull(toLog);
 			toLog.setWritable(true);
 			
 			try {
