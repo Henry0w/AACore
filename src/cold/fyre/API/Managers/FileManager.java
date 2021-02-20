@@ -111,8 +111,8 @@ public class FileManager {
 		if(folder == null || !folder.exists()) {
 			folder = new File(getPluginsFolder(), "Error Logs");
 			folder.mkdir();
-			Bukkit.getServer().getConsoleSender().sendMessage("§cError: Could not log Exception to §b" + pluginName + "§c, folder does not exist."
-					+ "§c Logging Exception to §bError Logs§c folder in the §bplugins§c folder.");
+			//Bukkit.getServer().getConsoleSender().sendMessage("§cError: Could not log Exception to §b" + pluginName + "§c, folder does not exist."
+			//		+ "§c Logging Exception to §bError Logs§c folder in the §bplugins§c folder.");
 		} else
 			folder = new File(getPluginsFolder(), "Error Logs");
 		
