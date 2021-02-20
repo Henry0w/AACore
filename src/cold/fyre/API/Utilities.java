@@ -1,5 +1,7 @@
 package cold.fyre.API;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Set;
@@ -8,7 +10,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.util.Vector;
+
+import cold.fyre.API.Managers.FileManager;
 
 /**
  * A collection of misfit methods that reduce the amount of code needed to perform the actions
@@ -168,6 +173,32 @@ public class Utilities {
 	 * @return Block of player looking at.
 	 */
 	public static Block getTargetBlock(Player player, int distance) { return player.getTargetBlock((Set<Material>) null, distance); }
+	
+	/**
+	 * Sets the new title of the inventory.<br><br>
+	 * <b>NOTE:</b> This method is not original code, please
+	 * give credit to the person(s) in which created it. You can
+	 * see the original code (with example) by visiting the Github
+	 * page provided with the link below.<br>
+	 * <b>https://gist.github.com/asaskevich/4c6dee9169095fa2477f</b><br>
+	 * OR<br>
+	 * <a href="https://gist.github.com/asaskevich/4c6dee9169095fa2477f">Link</a>
+	 * @param newTitle
+	 */
+	public void setTitle(Inventory inventory, String newTitle) {
+		try {
+			Field invTitle = inventory.getClass().getDeclaredField("title");
+			invTitle.setAccessible(true);
+			
+			Field modifier = Field.class.getDeclaredField("modifiers");
+			modifier.setAccessible(true);
+			modifier.setInt(invTitle, modifier.getModifiers() & ~Modifier.FINAL);
+			
+			invTitle.set(inventory, newTitle);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			FileManager.logExceptionToFile("", e);
+		}
+	}
 	
 	/**
 	 * Does a simple check if the string provided is any of the other given Strings.
