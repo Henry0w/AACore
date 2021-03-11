@@ -21,12 +21,15 @@ import cold.fyre.API.Packets.minecraft.PacketPlayOutKickDisconnect;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutPlayerListHeaderFooter;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutTitle;
 import cold.fyre.API.Packets.minecraft.PacketPlayOutTitle.EnumTitleAction;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder;
+import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder.EnumWorldBorderAction;
 //import cold.fyre.API.Packets.minecraft.PacketPlayOutUpdateTime;
 //import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder;
 //import cold.fyre.API.Packets.minecraft.PacketPlayOutWorldBorder.EnumWorldBorderAction;
 import cold.fyre.API.Packets.minecraft.PacketSender;
 //import cold.fyre.API.Packets.minecraft.support.BlockPosition;
 import cold.fyre.API.Packets.minecraft.support.ChatMessage;
+import cold.fyre.API.Packets.minecraft.support.WorldBorder;
 //import cold.fyre.API.Packets.minecraft.support.WorldBorder;
 import cold.fyre.Usage.IcyHotManager;
 //import io.netty.channel.Channel;
@@ -211,7 +214,7 @@ public class PacketManager extends AbstractPacketManager {
 		PacketSender.sendPacket(player, kick);
 	}
 
-	/*
+	
 	@Override
 	public void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime) {
 		setPlayersWorldBorder(player, new WorldBorder(xCenter, zCenter, damage, damageBuffer, size, warnDistance, warnTime));
@@ -223,6 +226,7 @@ public class PacketManager extends AbstractPacketManager {
 		PacketSender.sendPacket(player, world);
 	}
 	
+	/*
 	@Override
 	public void setTime(Player player, long worldAge, long time) {
 		PacketPlayOutUpdateTime update = new PacketPlayOutUpdateTime(worldAge, time, true);
