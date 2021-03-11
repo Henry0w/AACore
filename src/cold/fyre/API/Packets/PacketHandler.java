@@ -28,12 +28,16 @@ public class PacketHandler implements AAPacket {
 				Object mainObject = mainClass.newInstance();
 				
 				if(parameters.length != 0)
-					packet = subClass.getDeclaredConstructor(getAllParameters(mainClass, convertToClass(parameters))).newInstance(getAllObjects(mainObject, parameters));
+					packet = subClass.getConstructor(getAllParameters(mainClass, convertToClass(parameters))).newInstance(getAllObjects(mainObject, parameters));
 				else
-					packet = subClass.getDeclaredConstructor(mainClass).newInstance(mainObject);
+					packet = subClass.getConstructor(mainClass).newInstance(mainObject);
 			} else {
 				Class<?> packetClass = Class.forName(packetLocation);
-				packet = packetClass.getDeclaredConstructor(convertToClass(parameters)).newInstance(parameters);
+				
+				if(parameters.length != 0)
+					packet = packetClass.getConstructor(convertToClass(parameters)).newInstance(parameters);
+				else
+					packet = packetClass.getConstructor().newInstance();
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			FileManager.logExceptionToFile("", e);
