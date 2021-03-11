@@ -17,6 +17,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cold.fyre.API.Configuration;
+
 /**
  * Contains methods that are useful for common plugin use. This helps
  * maintain data within your plugin, allowing quick actions to be done
@@ -197,6 +199,26 @@ public abstract class PluginManager<J extends JavaPlugin> {
 			logExceptionToFile(e);
 			return null;
 		}
+	}
+	
+	/**
+	 * Gets a YML config from a custom location. The path starts at the plugins' dataFolder;
+	 * so you can input the file path through the folders.
+	 * @param path
+	 * @return Configuration
+	 */
+	public Configuration getCustomConfig(String path) {
+		if(path == null || path.isEmpty())
+			throw new NullPointerException("Error: Path to config cannot be null or empty.");
+		
+		if(!path.endsWith(".yml")) {
+			logMessage(Level.WARNING, "Notice, file [" + path.split("/")[path.split("/").length - 1] + "] is not of YML format, generating new file.");
+			path += ".yml";
+		} else if(path.startsWith("/"))
+			path = path.substring(1);
+		
+		File ymlFile = new File(getPlugin().getDataFolder(), path);
+		return new Configuration(ymlFile);
 	}
 	
 	/**
