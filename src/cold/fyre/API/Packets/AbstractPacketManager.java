@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import cold.fyre.API.Packets.minecraft.support.WorldBorder;
 //import cold.fyre.API.Packets.minecraft.support.WorldBorder;
 import cold.fyre.Usage.IcyHotManager;
 
@@ -271,7 +272,7 @@ public abstract class AbstractPacketManager {
 	 * @param warnDistance - Warning distance to world border (in blocks)
 	 * @param warnTime - Warning time to world border
 	 */
-	//public abstract void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime);
+	public abstract void setPlayersWorldBorder(Player player, double xCenter, double zCenter, double size, double damage, double damageBuffer, int warnDistance, int warnTime);
 	
 	/**
 	 * Sets a worldBorder to the specific player. This acts like a the real WorldBorder,
@@ -285,7 +286,7 @@ public abstract class AbstractPacketManager {
 	 * @param player - Player to affect.
 	 * @param border - WorldBorder to place on player
 	 * */
-	//public abstract void setPlayersWorldBorder(Player player, WorldBorder border);
+	public abstract void setPlayersWorldBorder(Player player, WorldBorder border);
 	
 	/**
 	 * This sends a Edit Sign to the player where they can input like
