@@ -185,7 +185,7 @@ public class Utilities {
 	 * <a href="https://gist.github.com/asaskevich/4c6dee9169095fa2477f">Link</a>
 	 * @param newTitle
 	 */
-	public void setTitle(Inventory inventory, String newTitle) {
+	public static void setTitle(Inventory inventory, String newTitle) {
 		try {
 			Field invTitle = inventory.getClass().getDeclaredField("title");
 			invTitle.setAccessible(true);
@@ -206,7 +206,7 @@ public class Utilities {
 	 * @param inventory - Inventory to get title from
 	 * @return title of inventory
 	 */
-	public String getTitle(Inventory inventory) {
+	public static String getTitle(Inventory inventory) {
 		try {
 			Field invTitle = inventory.getClass().getDeclaredField("title");
 			invTitle.setAccessible(true);
