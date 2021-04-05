@@ -201,6 +201,24 @@ public class Utilities {
 	}
 	
 	/**
+	 * Grabs and reeturns the title of the inventory.
+	 * 
+	 * @param inventory - Inventory to get title from
+	 * @return title of inventory
+	 */
+	public String getTitle(Inventory inventory) {
+		try {
+			Field invTitle = inventory.getClass().getDeclaredField("title");
+			invTitle.setAccessible(true);
+			
+			return (String) invTitle.get(inventory);
+		} catch (NoSuchFieldException | SecurityException | IllegalAccessException | IllegalArgumentException e) {
+			FileManager.logExceptionToFile("", e);
+			return null;
+		}
+	}
+	
+	/**
 	 * Does a simple check if the string provided is any of the other given Strings.
 	 * This ignores the case of the Strings.
 	 * @param comapre - String checking
