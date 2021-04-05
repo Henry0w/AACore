@@ -1,6 +1,6 @@
 name: AACore
 authors: [Armeriness, Sommod]
-version: 2.1
+version: 2.2
 main: cold.fyre.IcyHot
 description: A library of data that is used in plugin creation.
 
