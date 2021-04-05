@@ -1,17 +1,71 @@
 package cold.fyre.API.Packets.minecraft.support;
 
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class NBTTagCompound {
-	
+import org.bukkit.Bukkit;
+
+import cold.fyre.API.Managers.FileManager;
+
+public class NBTTagCompound implements Serializable {
+
+	private static final long serialVersionUID = 2674704430879896672L;
 	protected final Map<String, Object> map;
 	
-	public NBTTagCompound() { map = new HashMap<>(); }
+	public NBTTagCompound() { map = new HashMap<String, Object>(); }
 	
 	public NBTTagCompound(NBTTagCompound clone) { map = clone.map; }
+	
+	public NBTTagCompound(Object nmsNBTTagCompound) {
+		map = getCompound(nmsNBTTagCompound);
+	}
+	
+	private Map<String, Object> getCompound(Object nmsNBTTagCompound) {
+		Map<String, Object> values = new HashMap<String, Object>();
+		try {
+			@SuppressWarnings("unchecked")
+			Set<String> keys = (Set<String>) nmsNBTTagCompound.getClass().getMethod("getKeys").invoke(nmsNBTTagCompound);
+			
+			if(keys.isEmpty())
+				return values;
+			
+			String version = "net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3] + ".";
+			
+			for(String key : keys) {
+				Object nbtBase = nmsNBTTagCompound.getClass().getMethod("get", String.class).invoke(nmsNBTTagCompound, key);
+				
+				if(nbtBase.getClass().equals(Class.forName(version + "NBTTagInt")))
+					map.put(key, (int) nbtBase.getClass().getMethod("asInt").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagDouble")))
+					map.put(key, (double) nbtBase.getClass().getMethod("asDouble").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagFloat")))
+					map.put(key, (float) nbtBase.getClass().getMethod("asFloat").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagShort")))
+					map.put(key, (short) nbtBase.getClass().getMethod("asShort").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagLong")))
+					map.put(key, (long) nbtBase.getClass().getMethod("asLong").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagByte")))
+					map.put(key, (byte) nbtBase.getClass().getMethod("asByte").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagIntArray")))
+					map.put(key, (int[]) nbtBase.getClass().getMethod("getInts").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagByteArray")))
+					map.put(key, (byte[]) nbtBase.getClass().getMethod("getBytes").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagString")))
+					map.put(key, (String) nbtBase.getClass().getMethod("asString").invoke(nbtBase));
+				else if(nbtBase.getClass().equals(Class.forName(version + "NBTTagCompound")))
+					map.put(key, new NBTTagCompound(nbtBase));
+				
+				return map;
+			}
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			FileManager.logExceptionToFile("", e);
+		}
+		return values;
+	}
 	
 	public Set<String> getKeys() { return map.keySet(); }
 	
@@ -122,6 +176,6 @@ public class NBTTagCompound {
 		return (NBTTagCompound) map.get(key);
 	}
 	
-	public Object getObject(final String key) { return map.get(key); }
+	public Object get(final String key) { return map.get(key); }
 
 }
