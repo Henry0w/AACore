@@ -12,30 +12,30 @@ public class Converter {
 		PacketHandler nbt = new PacketHandler("NBTTagCompound");
 		
 		for(String key : inner.getKeys()) {
-			if(inner.getObject(key) instanceof NBTTagCompound)
-				nbt.setFieldValue("set", convertNBT(inner.getNBTTagCompound(key)));
+			if(inner.get(key) instanceof NBTTagCompound)
+				nbt.runMethod("set", convertNBT(inner.getNBTTagCompound(key)));
 			else {
-				String name = getMethod(inner.getObject(key));
+				String name = getMethod(inner.get(key));
 				
-				if(inner.getObject(key) instanceof Byte)
+				if(inner.get(key) instanceof Byte)
 					nbt.runMethod(name, inner.getByte(key));
-				else if(inner.getObject(key) instanceof Byte[])
+				else if(inner.get(key) instanceof Byte[])
 					nbt.runMethod(name, inner.getByteArray(key));
-				else if(inner.getObject(key) instanceof Integer)
+				else if(inner.get(key) instanceof Integer)
 					nbt.runMethod(name, inner.getInt(key));
-				else if(inner.getObject(key) instanceof Integer[])
+				else if(inner.get(key) instanceof Integer[])
 					nbt.runMethod(name, inner.getIntArray(key));
-				else if(inner.getObject(key) instanceof Double)
+				else if(inner.get(key) instanceof Double)
 					nbt.runMethod(name, inner.getDouble(key));
-				else if(inner.getObject(key) instanceof Float)
+				else if(inner.get(key) instanceof Float)
 					nbt.runMethod(name, inner.getFloat(key));
-				else if(inner.getObject(key) instanceof Long)
+				else if(inner.get(key) instanceof Long)
 					nbt.runMethod(name, inner.getLong(key));
-				else if(inner.getObject(key) instanceof Short)
+				else if(inner.get(key) instanceof Short)
 					nbt.runMethod(name, inner.getShort(key));
-				else if(inner.getObject(key) instanceof String)
+				else if(inner.get(key) instanceof String)
 					nbt.runMethod(name, inner.getString(key));
-				else if(inner.getObject(key) instanceof Boolean)
+				else if(inner.get(key) instanceof Boolean)
 					nbt.runMethod(name, inner.getBoolean(key));
 			}
 		}
