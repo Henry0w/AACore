@@ -26,7 +26,7 @@ import cold.fyre.API.Managers.FileManager;
  * 
  * @author Armeriness
  * @author Sommod
- * @since 2.0
+ * @since 2.1
  *
  */
 public class Configuration extends YamlConfiguration {
