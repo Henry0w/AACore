@@ -1,6 +1,6 @@
-package cold.fyre.API.Packets;
+package cold.fyre.API.Packets.minecraft;
 
-import cold.fyre.API.Packets.minecraft.Packet;
+import cold.fyre.API.Packets.PacketHandler;
 
 public class PacketPlayOutScoreboardDisplayObjective extends Packet {
 	
