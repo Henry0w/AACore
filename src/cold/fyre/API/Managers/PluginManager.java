@@ -135,6 +135,7 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	 * to get the newest data into the plugin.
 	 * @return {@link YamlConfiguration}
 	 */
+	@Deprecated
 	public YamlConfiguration getConfig() { return YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")); }
 	
 	/**
@@ -143,7 +144,25 @@ public abstract class PluginManager<J extends JavaPlugin> {
 	 * @param file - YML file to load
 	 * @return {@link YamlConfiguration}
 	 */
+	@Deprecated
 	public YamlConfiguration getCustomConfig(File file) { return YamlConfiguration.loadConfiguration(file); }
+	
+	/**
+	 * This obtains a new instance of the default config.yml file found within the base folder
+	 * of the plugin. This means that when data is changed via Console or in-game, the data
+	 * will be updated in the plugin as well. This avoids the need to reload the plugin constantly
+	 * to get the newest data into the plugin.
+	 * @return {@link Configuration}
+	 */
+	public Configuration getConfiguration() { return new Configuration(new File(plugin.getDataFolder(), "config.yml")); }
+	
+	/**
+	 * Similar to the {@link #getConfigration()} method, this obtains a new instance of the file in the format
+	 * of YML. If the file is not of a YML format, then this will throw an exception of an invalid format.
+	 * @param file - YML file to load
+	 * @return {@link Configuration}
+	 */
+	public Configuration getCustomConfiguration(File file) { return new Configuration(file); }
 	
 	/**
 	 * Completes the same action as the {@link #getCustomConfig(File)}, but allows inputting the file path
