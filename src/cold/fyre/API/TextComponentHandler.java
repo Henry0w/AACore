@@ -55,9 +55,13 @@ public class TextComponentHandler {
 	public static TextComponent createMessage(String message, String hoverMessage) {
 		TextComponent main = new TextComponent(message);
 		
-		if(hoverMessage != null)
-			main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(hoverMessage).create())));
-		
+		if(hoverMessage != null) {
+			try {
+				main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(hoverMessage).create())));
+			} catch (Exception e) {
+				main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMessage).create()));
+			}
+		}
 		return main;
 	}
 	
