@@ -12,7 +12,7 @@ public class PacketPlayOutWorldBorder extends Packet {
 		super("PacketPlayOutWorldBorder");
 		this.border = border;
 		this.action = action;
-		net.minecraft.server.v1_16_R1.WorldBorder b = new net.minecraft.server.v1_16_R1.WorldBorder();
+		WorldBorder b = new WorldBorder();
 		b.setCenter(0D, 0D);
 	}
 
